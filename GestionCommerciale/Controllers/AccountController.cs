@@ -10,6 +10,7 @@ namespace GestionCommerciale.Controllers
     {
         //
         // GET: /Account/
+        //mokhtar
         GestionCommercialeEntity BD = new GestionCommercialeEntity();
         public ActionResult Index()
         {
