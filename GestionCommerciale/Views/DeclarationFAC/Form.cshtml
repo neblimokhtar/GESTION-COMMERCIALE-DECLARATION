@@ -1,0 +1,60 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>DECLARATIONS DES FACTURES DE VENTE</h2>
+        <ol class="breadcrumb">
+            <li><a>FAC</a> </li>
+            <li class="active"><strong>DECLARATIONS DES FACTURES DE VENTE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "DeclarationFAC", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="text-align: initial;">
+                    TRIMESTRE</label>
+                <div class="col-lg-10">
+                    <select name="TRIMESTRE" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="text-align: initial;">
+                    ANNEE</label>
+                <div class="col-lg-10">
+                    <input type="text" name="ANNEE" required class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="text-align: initial;">
+                    SOCIETE</label>
+                <div class="col-lg-10">
+                    <select name="SOCIETE" class="form-control">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.ID">@item.SOCIETE</option>
+                        }
+                    </select>
+                    <span class="help-block m-b-none">@ViewBag.ErrorText</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="float: right; display: flex;">
+            <div class="form-group" style="margin-right: 15px; margin-top: 15px;">
+                <input type="submit" name="Submit" id="Submit" value="Suivant" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+
+</div>

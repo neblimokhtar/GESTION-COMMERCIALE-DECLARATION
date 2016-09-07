@@ -1,0 +1,136 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>
+            Liste des sociétés</h2>
+        <ol class="breadcrumb">
+            <li><a>CNSS</a> </li>
+            <li class="active"><strong>@ViewBag.Type</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendFormSociete", "CNSS", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    SOCIETE</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="SOCIETE" required value="@Model.SOCIETE" >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    MATRICULE CNSS</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="MATRICULE" required value="@Model.CODE" id="MATRICULE">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    ACTIVITE</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="ACTIVITE" required value="@Model.ACTIVITE" id="ACTIVITE">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    ADRESSE</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control m-b" name="VILLE" required value="@Model.VILLE" id="VILLE" placeholder="Ville">
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control m-b" name="RUE" required value="@Model.RUE" id="RUE" placeholder="Rue">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control m-b" name="NUMERO" required value="@Model.NUMERO" id="NUMERO" placeholder="Numéro">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control m-b" name="CODE_POSTAL" required value="@Model.CODE_POSTAL" id="CODE_POSTAL" placeholder="Code Postal">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    MATRICULE FISCAL</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="MATRICULE_FISCAL" required value="@Model.MATRICULE" id="MATRICULE_FISCAL">
+                    <span class="help-block m-b-none">Matricule fiscal - Clé - Catégorie - Numéro établissement (Exemple : 1234567-S-M-000 )</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    CODE TVA</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="CODE_EXPLOITATION" id="CODE_EXPLOITATION">
+                        <option value="A">A</option>
+                        <option value="N">N</option>
+                        <option value="P">P</option>
+                        <option value="B">B</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    BR</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="BR" required value="@Model.BR" id="BR">
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+            <strong>Enregistrer</strong></button>
+    }
+</div>
+<script type="text/javascript" src="~/js/jquery.maskedinput.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#MATRICULE_FISCAL").mask("999999*-a-a-999");
+        var Mode = "@ViewBag.Mode";
+        var CODE_EXPLOITATION = "@Model.CODE_EXPLOITATION";
+        if (Mode == "Edit") {
+            $("#CODE_EXPLOITATION").val(CODE_EXPLOITATION).trigger("change");
+        }
+
+    });
+    $('form').validate({
+        rules: {
+            MATRICULE: {
+                required: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            MATRICULE_FISCAL: {
+                required: true
+            
+            },
+            VILLE: {
+                maxlength: 40
+            },
+            RUE: {
+                maxlength: 72
+            },
+            NUMERO: {
+                maxlength: 4
+            },
+            CODE_POSTAL: {
+                maxlength: 4,
+                minlength: 4
+            }
+        }
+    });
+</script>

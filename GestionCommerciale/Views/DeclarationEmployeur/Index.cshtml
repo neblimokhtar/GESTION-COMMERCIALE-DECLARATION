@@ -1,0 +1,209 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>LISTE DES DECLARATIONS EMPLOYEURS</h2>
+        <ol class="breadcrumb">
+            <li><a>EMPLOYEUR</a> </li>
+            <li class="active"><strong>LISTE DES DECLARATIONS EMPLOYEURS</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-top: 4px;">
+                    <h5 style="padding-top: 10px;">Liste des fichiers de déclarations générés</h5>
+                    <div class="ibox-tools">
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "DeclarationEmployeur", new { Mode = "Create", Code = "-1" }, null)'">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        <button class="btn btn-primary " type="button" id="PrintBtn">
+                            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="Tableau">
+                        <thead>
+                            <tr>
+                                <th>CODE
+                                </th>
+                                <th>SOCIETE
+                                </th>
+                                <th>ANNEE
+                                </th>
+                                <th>DATE
+                                </th>
+                                <th>CODE ACTE
+                                </th>
+                                <th>FICHIER
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (dynamic item in Model)
+                            {
+                                <tr id="@item.ID">
+                                    <td>
+                                        @item.CODE
+                                    </td>
+                                    <td>
+                                        @item.DECLARATIONS.SOCIETE
+                                    </td>
+                                    <td>
+                                        @item.ANNEE
+                                    </td>
+                                    <td>
+                                        @item.DATE.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        @{if (item.CODE_ACTE == 0)
+                                          {
+                                            @:(0) Spontané
+                                         }
+                                        }
+                                        @{if (item.CODE_ACTE == 1)
+                                          {
+                                            @:(1) Régularisation
+                                         }
+                                        }
+                                        @{if (item.CODE_ACTE == 2)
+                                          {
+                                            @:(2) Redressement
+                                         }
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "RECAP" }, null)'>RECAP</a></p>
+                                        }
+                                        @if (item.ANNEXE_1_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_1" }, null)'>ANNEXE_1</a></p>
+                                        }
+                                        @if (item.ANNEXE_2_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_2" }, null)'>ANNEXE_2</a></p>
+                                        }
+                                        @if (item.ANNEXE_3_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_3" }, null)'>ANNEXE_3</a></p>
+                                        }
+                                        @if (item.ANNEXE_4_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_4" }, null)'>ANNEXE_4</a></p>
+                                        }
+                                        @if (item.ANNEXE_5_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_5" }, null)'>ANNEXE_5</a></p>
+                                        }
+                                        @if (item.ANNEXE_6_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_6" }, null)'>ANNEXE_6</a></p>
+                                        }
+                                        @if (item.ANNEXE_7_DATA != null)
+                                        {
+                                            <p><a href='@Url.Action("GetFileByID", "DeclarationEmployeur", new { id = @item.ID, filter = "ANNEXE_7" }, null)'>ANNEXE_7</a></p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class='custom-menu'>
+    <li data-action="Detail"><i class="fa fa-info-circle" style="margin-right: 3px;"></i>
+        Detail</li>
+    <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>
+        Supprimer</li>
+    @*    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+        Modifier</li>*@
+</ul>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    var table = $('#Tableau').DataTable();
+    $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+        if (event.button == 2) {
+            window.myValue = $(this).attr('id');
+            event.preventDefault();
+            var Width = $("#NavigationBar").width();
+            $(".custom-menu").finish().toggle(100).css({
+                top: event.pageY + "px",
+                left: (event.pageX) - Width + "px"
+            });
+        }
+    });
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+    $(".custom-menu li").click(function () {
+        var MyValue = window.myValue;
+        switch ($(this).attr("data-action")) {
+            case "Detail": Btn_Detailt_click(MyValue); break;
+            case "Delete": Btn_Delete_click(MyValue); break;
+            case "Edit": Btn_Edit_click(MyValue); break;
+        }
+        $(".custom-menu").hide(100);
+    });
+    function Btn_Detailt_click(MyValue) {
+        window.location.href = "/DeclarationEmployeur/Detail?Code=" + MyValue;
+    }
+    function Btn_Edit_click(MyValue) {
+        window.location.href = "/DeclarationFAC/SecondEdit?Code=" + MyValue + "&ParamPassed=-1";
+    }
+    function Btn_Delete_click(MyValue) {
+        var r = confirm("Voulez vous vraiment supprimer cette déclaration ?");
+        if (r == true) {
+            window.location.href = "/DeclarationEmployeur/Delete?Code=" + MyValue;
+        }
+    }
+    $("#PrintBtn").click(function () {
+        window.open("/DeclarationFAC/PrintAllDeclaration", '_blank');
+    });
+    $(document).ready(function () {
+        //$("#Li-Achat").attr("class", "active");
+        //$("#ul-Achat").attr("class", "nav nav-second-level collapse in");
+        //$("#ul-Achat").attr("aria-expanded", "true");
+        var Action = "@ViewBag.MODE";
+        if (Action == "Create") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Ajout avec Succés', '');
+
+            }, 1300);
+        }
+        if (Action == "Edit") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Modification avec Succés', '');
+
+            }, 1300);
+        }
+    });
+</script>

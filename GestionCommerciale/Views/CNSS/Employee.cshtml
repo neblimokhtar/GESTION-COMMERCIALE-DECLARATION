@@ -1,0 +1,167 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>LISTE DES EMPLOYEES</h2>
+        <ol class="breadcrumb">
+            <li><a>CNSS</a> </li>
+            <li class="active"><strong>LISTE DES EMPLOYEES</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-top: 4px;">
+                    <h4 style="padding-top: 10px;">SOCIETE: <b>@ViewBag.SOCIETE</b></h4>
+                    <div class="ibox-tools">
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("FormEmployee", "CNSS", new { Mode = "Create", Code = "-1", Societe = @ViewBag.CODE_SOCIETE }, null)'">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        <button class="btn btn-primary " type="button" id="PrintBtn">
+                            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="Tableau">
+                        <thead>
+                            <tr>
+                                <th>CIN
+                                </th>
+                                <th>NOM & PRENOM
+                                </th>
+                                <th>NUMERO ASSUREE SOCIAL
+                                </th>
+                                <th>NUMERO</th>
+                                <th>QUALIFICATION</th>
+                                <th>ETAT
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (dynamic item in Model)
+                            {
+                                <tr id="@item.ID">
+                                    <td>
+                                        @item.CIN
+                                    </td>
+                                    <td>
+                                        @item.FULLNAME
+                                    </td>
+                                    <td>
+                                        @item.NUM_ASS_SOC
+                                    </td>
+                                    <td>
+                                        @item.NUMERO
+                                    </td>
+                                    <td>
+                                        @item.QUALIFICATION
+                                    </td>
+                                    <td>
+                                        @if (item.ACTIF)
+                                        {
+                                            <small class="label label-info">ACTIF</small>
+                                        }
+                                        else
+                                        {
+                                            <small class="label label-danger">NON ACTIF</small>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class='custom-menu'>
+    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+        Modifier</li>
+    <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>Supprimer</li>
+</ul>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    var table = $('#Tableau').DataTable();
+    $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+        if (event.button == 2) {
+            window.myValue = $(this).attr('id');
+            event.preventDefault();
+            var Width = $("#NavigationBar").width();
+            $(".custom-menu").finish().toggle(100).css({
+                top: event.pageY + "px",
+                left: (event.pageX) - Width + "px"
+            });
+        }
+    });
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+    $(".custom-menu li").click(function () {
+        var MyValue = window.myValue;
+        switch ($(this).attr("data-action")) {
+            case "Edit": Btn_Edit_click(MyValue); break;
+            case "Delete": Btn_Delete_click(MyValue); break;
+        }
+        $(".custom-menu").hide(100);
+    });
+    $("#PrintBtn").click(function () {
+        var Societe = "@ViewBag.CODE_SOCIETE";
+        window.open("/CNSS/PrintAllEmployee?SOCIETE=" + Societe, '_blank');
+    });
+    function Btn_Edit_click(MyValue) {
+        var Societe = "@ViewBag.CODE_SOCIETE";
+        window.location.href = "/CNSS/FormEmployee?Mode=Edit&Code=" + MyValue + "&Societe=" + Societe;
+    }
+    function Btn_Delete_click(MyValue) {
+        var r = confirm("Voulez-vous vraiment supprimer cet employée !");
+        if (r == true) {
+            var Societe = "@ViewBag.CODE_SOCIETE";
+            window.location.href = "/CNSS/DeleteEmp?Code=" + MyValue + "&Filter=" + Societe;
+        } else {
+            location.reload();
+        }
+    }
+    $(document).ready(function () {
+        //$("#Li-Achat").attr("class", "active");
+        //$("#ul-Achat").attr("class", "nav nav-second-level collapse in");
+        //$("#ul-Achat").attr("aria-expanded", "true");
+        var Action = "@ViewBag.MODE";
+        if (Action == "Create") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Ajout avec Succés', '');
+
+            }, 1300);
+        }
+        if (Action == "Edit") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Modification avec Succés', '');
+
+            }, 1300);
+        }
+    });
+</script>

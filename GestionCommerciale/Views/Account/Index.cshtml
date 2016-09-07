@@ -1,0 +1,13 @@
+﻿@{Layout = "~/Views/Shared/_Login.cshtml";}
+@using (Html.BeginForm("SendLogin", "Account", FormMethod.Post, new { @class = "m-t", role = "form" }))
+{
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Login" required="" name="Login" />
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" placeholder="Mot de passe" required=""  name="Password"/>
+    </div>
+    <button type="submit" class="btn btn-primary block full-width m-b">Se Connecter</button>
+    <span class="help-block m-b-none">@ViewBag.ErrorText</span>
+}
+

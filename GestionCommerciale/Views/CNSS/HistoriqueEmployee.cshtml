@@ -1,0 +1,65 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="ibox-content" id="Content">
+    <table class="table table-striped table-bordered table-hover dataTables-example"
+        id="Tableau">
+        <thead>
+            <tr>
+                <th>SOCIETE
+                </th>
+                <th>DECLARATION
+                </th>
+                <th>TRIMESTRE
+                </th>
+                <th>ANNEE
+                </th>
+                <th>1ER SALAIRE
+                </th>
+                <th>2EME SALAIRE
+                </th>
+                <th>3EME SALAIRE
+                </th>
+                <th>TOTAL
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (dynamic item in Model)
+            {
+                <tr id="@item.ID">
+                    <td>
+                        @item.SOCIETE
+                    </td>
+                    <td>
+                        @item.CODE
+                    </td>
+                    <td>
+                        @item.TRIMESTRE
+                    </td>
+                    <td>
+                        @item.ANNEE
+                    </td>
+                    <td>
+                        @item.SALAIRE1
+                    </td>
+                    <td>
+                        @item.SALAIRE2
+                    </td>
+                    <td>
+                        @item.SALAIRE3
+                    </td>
+                    <td>
+                        @(item.SALAIRE1+item.SALAIRE2+item.SALAIRE3)
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>

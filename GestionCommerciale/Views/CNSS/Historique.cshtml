@@ -1,0 +1,83 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>HISTORIQUE DECLARATION</h2>
+        <ol class="breadcrumb">
+            <li><a>CNSS</a> </li>
+            <li class="active"><strong>HISTORIQUE DECLARATION</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-top: 4px;">
+                    <h4 style="float: left;"><b>Taper le numéro du CIN</b></h4>
+                    <div class="ibox-tools" style="display: inline-flex;">
+                        <input type="text" class="form-control" name="CIN" required id="CIN" maxlength="8" style="margin-right: 10px;" />
+                        <button class="btn btn-success " type="button" id="BtnFiltrer">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Chercher</span></button>
+                        <button class="btn btn-primary " type="button" id="PrintBtn">
+                            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                    </div>
+                </div>
+                <div class="ibox-content" id="Content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="Tableau">
+                        <thead>
+                            <tr>
+                                <th>SOCIETE
+                                </th>
+                                <th>DECLARATION
+                                </th>
+                                <th>TRIMESTRE
+                                </th>
+                                <th>ANNEE
+                                </th>
+                                <th>1ER SALAIRE
+                                </th>
+                                <th>2EME SALAIRE
+                                </th>
+                                <th>3EME SALAIRE
+                                </th>
+                                <th>TOTAL
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).on("click", "#BtnFiltrer", function (e) {
+        var CIN = $("#CIN").val();
+        $.get('@Url.Action("HistoriqueEmployee", "CNSS")?CIN=' + CIN, function (data) {
+            $('#Content').html(data);
+        });
+    });
+    $(document).on('keydown', function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            var CIN = $("#CIN").val();
+            $.get('@Url.Action("HistoriqueEmployee", "CNSS")?CIN=' + CIN, function (data) {
+                $('#Content').html(data);
+            });
+        }
+    });
+    $("#PrintBtn").click(function () {
+        var CIN = $("#CIN").val();
+        if (CIN != "")
+        { 
+            window.open("/CNSS/PrintHistorique?CIN=" + CIN, '_blank');
+        }
+    });
+
+</script>

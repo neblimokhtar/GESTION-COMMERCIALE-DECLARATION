@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>DECLARATIONS</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="~/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/MonStyle.css" rel="stylesheet">
+    <script type="text/javascript" src="~/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script type="text/javascript" src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.spline.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="~/js/plugins/peity/jquery.peity.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/peity-demo.js"></script>
+    <script type="text/javascript" src="~/js/inspinia.js"></script>
+    <script type="text/javascript" src="~/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/gritter/jquery.gritter.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/sparkline-demo.js"></script>
+    <script type="text/javascript" src="~/js/plugins/chartJs/Chart.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/js/jquery.validate.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation" id="NavigationBar">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element" style="text-align: center;">
+                            <span>
+                                <img alt="image" class="img-circle" src="~/img/profile_small.png" />
+                            </span><a data-toggle="dropdown" class="dropdown-toggle" href="/Home"><span
+                                class="clear"><span class="block m-t-xs"><strong class="font-bold">VENUS INFORMATION
+                                    TECHNOLOGY</strong> </span></span></a>
+                        </div>
+                        <div class="logo-element">
+                            V-IT
+                        </div>
+                    </li>
+                    <li id="Li-Acceuil"><a href="/Home/Home"><i class="fa fa-area-chart" aria-hidden="true"></i><span
+                        class="nav-label">Tableau de bord</span> </a></li>
+                                            <li><a href="/CNSS/Societes"><i class="fa fa-tags" aria-hidden="true"></i><span
+                        class="nav-label">Sociétés</span> </a></li>
+@*                    <li id="Li-Achat"><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span
+                        class="nav-label">Achats</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="ul-Achat">
+                            <li><a href="/Achat/Commandes">Commandes</a></li>
+                            <li><a href="/Achat/BonReception">Bons de recepction</a></li>
+                            <li><a href="/Achat/Facture">Factures</a></li>
+                            <li><a href="/Achat/Avoir">Avoirs</a></li>
+                        </ul>
+                    </li>
+                    <li id="Li-Vente"><a href="#"><i class="fa fa-usd" aria-hidden="true"></i><span class="nav-label">
+                        Ventes</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="ul-Vente">
+                            <li><a href="/Vente/Devis">Devis</a></li>
+                            <li><a href="/Vente/Commandes">Commandes</a></li>
+                            <li><a href="/Vente/BonLivraison">Bons de livraison</a></li>
+                            <li><a href="/Vente/Facture">Factures</a></li>
+                            <li><a href="/Vente/Avoir">Avoirs</a></li>
+                        </ul>
+                    </li>
+                    <li id="Li-Stock"><a href="/Stock"><i class="fa fa-cubes" aria-hidden="true"></i><span class="nav-label">
+                        Stock</span> </a></li>
+                    <li id="Li-Parametrage"> <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i><span class="nav-label">
+                        Paramètrage</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="ul-Parametrage">
+                            <li><a href="/Parametrage/Societe">Société</a></li>
+                            <li><a href="/Parametrage/Fournisseurs">Fournisseurs</a></li>
+                            <li><a href="/Parametrage/Clients">Clients</a></li>
+                        </ul>
+                    </li>*@
+                    <li><a href="#"><i class="fa fa-hdd-o" aria-hidden="true"></i><span class="nav-label">CNSS</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level-Parametrage">
+                            @*<li><a href="/CNSS/Societes">Sociétés</a></li>*@
+                            <li><a href="/CNSS/Saisie">Saisie Salaire Mensuelle</a></li>
+                            <li><a href="/CNSS/All">Déclaration</a></li>
+                            <li><a href="/CNSS/Historique">Historique</a></li>
+                            <li><a href="http://193.95.93.64/fichier/select.htm" target="_blank">Test en ligne</a></li>
+                        </ul>
+                    </li>
+                                        <li><a href="#"><i class="fa fa-calculator" aria-hidden="true"></i><span class="nav-label">BCD</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/DeclarationBCD">Déclarations</a></li>
+                            <li><a href="/Parametrage/Fournisseurs">Fournisseurs</a></li>
+                            <li><a href="http://tl.finances.gov.tn/ficanx/decemp_fr.jsp" target="_blank">Test en ligne</a></li>
+                        </ul>
+                    </li>
+                                        <li><a href="#"><i class="fa fa-money" aria-hidden="true"></i><span class="nav-label">FAC</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/DeclarationFAC">Déclarations</a></li>
+                            <li><a href="/Parametrage/Clients">Clients</a></li>
+                            <li><a href="http://tl.finances.gov.tn/ficanx/decemp_fr.jsp" target="_blank">Test en ligne</a></li>
+                        </ul>
+                    </li>
+                                        <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i><span class="nav-label">EMPLOYEUR</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/DeclarationEmployeur">Déclarations</a></li>
+                            <li><a href="/DeclarationEmployeur/Download">Téléchargement</a></li>
+                            <li><a href="http://tl.finances.gov.tn/ficanx/decemp_fr.jsp" target="_blank">Test en ligne</a></li>
+                        </ul>
+                    </li>
+                                        <li><a href="#"><i class="fa fa-paypal" aria-hidden="true"></i><span class="nav-label">AVANCES</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/Avance">Liste des avances</a></li>
+                            <li><a href="/Avance/AvanceUser">Avances / Employees</a></li>
+                            <li><a href="/Avance/Download">Téléchargement</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars">
+                        </i></a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li><span class="m-r-sm text-muted welcome-message">GESTION COMMERCIALE</span> </li>
+                        <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown"
+                            href="#"><i class="fa fa-pie-chart"></i>
+                        </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+</body>
+@RenderSection("scripts", required: false)
+</html>

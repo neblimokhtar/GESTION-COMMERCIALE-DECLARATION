@@ -1,0 +1,640 @@
+﻿<link href="~/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-lg-6">
+        <div class="ibox-content">
+            <h2>
+                NOTIFICATIONS</h2>
+            <ul class="todo-list m-t ui-sortable">
+                @foreach (var item in Model)
+                {
+                    if (item.ETIQUETTE == "REPTURE")
+                    {
+                    <li>
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="" name="" class="i-checks" style="position: absolute;
+                                opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block;
+                                width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0;
+                                background: rgb(255, 255, 255);"></ins>
+                        </div>
+                        <span class="m-l-xs">@item.CODE_PRODUIT : @item.LIB_PRODUIT</span> <small class="label label-warning">
+                            REPTURE</small> </li>
+                    }
+                    if (item.ETIQUETTE == "BLOQUEE")
+                    {
+                    <li>
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="" name="" class="i-checks" style="position: absolute;
+                                opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block;
+                                width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0;
+                                background: rgb(255, 255, 255);"></ins>
+                        </div>
+                        <span class="m-l-xs">@item.CODE_PRODUIT : @item.LIB_PRODUIT</span> <small class="label label-danger">
+                            BLOQUEE</small> </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox-content">
+            <h2>
+                CE MOIS (@DateTime.Today.Month)</h2>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-danger m-r-sm">
+                                @ViewBag.CDF</button>
+                            <strong>CDF</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary m-r-sm">
+                                @ViewBag.BRF</button>
+                            <strong>BRF</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-info m-r-sm">
+                                @ViewBag.FF</button>
+                            <strong>FF</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-info m-r-sm">
+                                @ViewBag.AVF</button>
+                            <strong>AVF</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success m-r-sm">
+                                @ViewBag.DVC</button>
+                            <strong>DVC</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger m-r-sm">
+                                @ViewBag.CDC</button>
+                            <strong>CDC</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-warning m-r-sm">
+                                @ViewBag.BLC</button>
+                            <strong>BLC</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default m-r-sm">
+                                @ViewBag.FC</button>
+                            <strong>FC</strong>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning m-r-sm">
+                                @ViewBag.AVC</button>
+                            <strong>AVC</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <a href="/Achat/Commandes"><small class="label label-danger">CDF</small><strong> Commande
+                        Fournisseur </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Achat/BonReception"><small class="label label-primary">BRF</small><strong>
+                        Bon Reception Fournisseur </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Achat/Facture"><small class="label label-info">FF</small><strong> Facture
+                        Fournisseur </strong></a>
+                </div>
+            </div>
+            <div class="hr-line-dashed">
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <a href="/Achat/Avoir"><small class="label label-info">AVF</small><strong> Avoir Fournisseur
+                    </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Vente/Devis"><small class="label label-success">DVC</small><strong> Devis
+                        Client </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Vente/Commandes"><small class="label label-danger">CDC</small><strong> Commande
+                        Client </strong></a>
+                </div>
+            </div>
+            <div class="hr-line-dashed">
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <a href="/Vente/BonLivraison"><small class="label label-warning">BLC</small><strong>
+                        Bon Livraison Client </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Vente/Facture"><small class="label label-default">FC</small><strong> Facture
+                        Client </strong></a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="/Vente/Avoir"><small class="label label-warning">AVC</small><strong> Avoir
+                        Client </strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-success pull-right">Annuel</span>
+                            <h5>
+                                VENTE</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">
+                                @ViewBag.VenteAnnee</h1>
+                            @if (ViewBag.RapportVenteAnnee >= 0)
+                            {
+                                <div class="stat-percent font-bold text-navy">
+                                    @ViewBag.RapportVenteAnnee % <i class="fa fa-level-up"></i>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="stat-percent font-bold text-danger">
+                                    @ViewBag.RapportVenteAnnee % <i class="fa fa-level-down"></i>
+                                </div>
+                            }
+                            <small>Totale</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-info pull-right">Mensuel</span>
+                            <h5>
+                                VENTE</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">
+                                @ViewBag.VenteMois</h1>
+                            @if (ViewBag.RapportVenteMois >= 0)
+                            {
+                                <div class="stat-percent font-bold text-navy">
+                                    @ViewBag.RapportVenteMois % <i class="fa fa-level-up"></i>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="stat-percent font-bold text-danger">
+                                    @ViewBag.RapportVenteMois % <i class="fa fa-level-down"></i>
+                                </div>
+                            }
+                            <small>Totale</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-success pull-right">Annuel</span>
+                            <h5>
+                                ACHAT</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">
+                                @ViewBag.AchatAnnee</h1>
+                            @if (ViewBag.RapportAchatAnnee >= 0)
+                            {
+                                <div class="stat-percent font-bold text-navy">
+                                    @ViewBag.RapportAchatAnnee % <i class="fa fa-level-up"></i>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="stat-percent font-bold text-danger">
+                                    @ViewBag.RapportAchatAnnee % <i class="fa fa-level-down"></i>
+                                </div>
+                            }
+                            <small>Totale</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-info pull-right">Mensuel</span>
+                            <h5>
+                                ACHAT</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">
+                                @ViewBag.AchatMois</h1>
+                            @if (ViewBag.RapportAchatMois >= 0)
+                            {
+                                <div class="stat-percent font-bold text-navy">
+                                    @ViewBag.RapportAchatMois % <i class="fa fa-level-up"></i>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="stat-percent font-bold text-danger">
+                                    @ViewBag.RapportAchatMois % <i class="fa fa-level-down"></i>
+                                </div>
+                            }
+                            <small>Totale</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*COMMANDES*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                COMMNDES FOURNISSEURS/CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="CommandeFournisseurClientchart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                COMMNDES FOURNISSEURS/CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="CommandeFournisseurClientDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*BON RECEPTION FOURNISSEUR*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                BONS RECEPTIONS FOURNISSEURS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="BonReceptionchart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                BONS RECEPTIONS FOURNISSEURS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="BonReceptionDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*BON LIVRAISON CLIENT*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                BONS LIVRAISONS CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="BonLivraisonChart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                BONS LIVRAISONS CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="BonLivraisonDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*FACTURE FOURNISSEUR*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                FACTURES FOURNISSEURS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="FacturesFournisseursChart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                FACTURES FOURNISSEURS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="FacturesFournisseursDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*FACTURE CLIENT*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                FACTURES CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="FacturesClientChart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                FACTURES CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="FacturesClientDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*AVOIRS*@
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                AVOIRS FOURNISSEURS/CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="AvoirFournisseurClientChart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                AVOIRS FOURNISSEURS/CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="AvoirFournisseurClientDonut">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*DEVIS CLIENT*@
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                DEVIS CLIENTS</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div id="DevisClientchart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>Copyright</strong> Example Company &copy; @DateTime.Today.Year
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/plugins/morris/raphael-2.1.0.min.js" type="text/javascript"></script>
+<script src="~/js/plugins/morris/morris.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var NbrCommandeFournisseur = "@ViewBag.NbrCommandeFournisseur";
+        var NbrCommandeClient = "@ViewBag.NbrCommandeClient";
+        var NbrBonReceptionValide = "@ViewBag.NbrBonReceptionValide";
+        var NbrBonReceptionNonValide = "@ViewBag.NbrBonReceptionNonValide";
+        var NbrLivraisonValide = "@ViewBag.NbrLivraisonValide";
+        var NbrLivraisonNonValide = "@ViewBag.NbrLivraisonNonValide";
+        var NbrFactureFournisseurPaye = "@ViewBag.NbrFactureFournisseurPaye";
+        var NbrFactureFournisseurNonPaye = "@ViewBag.NbrFactureFournisseurNonPaye";
+        var NbrFactureClientPaye = "@ViewBag.NbrFactureClientPaye";
+        var NbrFactureClientNonPaye = "@ViewBag.NbrFactureClientNonPaye";
+        var NbrAvoirFournisseur = "@ViewBag.NbrAvoirFournisseur";
+        var NbrAvoirClient = "@ViewBag.NbrAvoirClient";
+        //*************************************************************************
+        var Commande = '@ViewBag.Commande';
+        Commande = Commande.replace(/&quot;/g, "\"");
+        Commande = JSON.parse(Commande);
+
+        var BonReception = '@ViewBag.BonReception';
+        BonReception = BonReception.replace(/&quot;/g, "\"");
+        BonReception = JSON.parse(BonReception);
+
+        var BonLivraison = '@ViewBag.BonLivraison';
+        BonLivraison = BonLivraison.replace(/&quot;/g, "\"");
+        BonLivraison = JSON.parse(BonLivraison);
+
+        var FactureFournisseur = '@ViewBag.FactureFournisseur';
+        FactureFournisseur = FactureFournisseur.replace(/&quot;/g, "\"");
+        FactureFournisseur = JSON.parse(FactureFournisseur);
+
+        var FactureClient = '@ViewBag.FactureClient';
+        FactureClient = FactureClient.replace(/&quot;/g, "\"");
+        FactureClient = JSON.parse(FactureClient);
+
+        var Avoir = '@ViewBag.Avoir';
+        Avoir = Avoir.replace(/&quot;/g, "\"");
+        Avoir = JSON.parse(Avoir);
+
+        var Devis = '@ViewBag.Devis';
+        Devis = Devis.replace(/&quot;/g, "\"");
+        Devis = JSON.parse(Devis);
+
+        //    COMMANDES
+        //------------------------------------------
+        Morris.Line({
+            element: 'CommandeFournisseurClientchart',
+            data: Commande,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['CDF', 'CDC'],
+            lineColors: ['#E57373', '#E53935']
+        });
+        //------------------------------------------
+        Morris.Donut({
+            element: 'CommandeFournisseurClientDonut',
+            data: [
+    { label: "COMMANDES CLIENTS", value: NbrCommandeClient },
+    { label: "COMMANDES FOURNISSEURS", value: NbrCommandeFournisseur }
+  ],
+            colors: ['#E57373', '#E53935']
+        });
+        //BON RECEPTION
+        //------------------------------------------
+        Morris.Line({
+            element: 'BonReceptionchart',
+            data: BonReception,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Series A', 'Series B'],
+            lineColors: ['#9FA8DA', '#5C6BC0']
+        });
+        //---------------------------------------
+        Morris.Donut({
+            element: 'BonReceptionDonut',
+            data: [
+    { label: "BON RECEPTIONS VALIDEES", value: NbrBonReceptionValide },
+    { label: "BON RECEPTIONS NON VALIDEES", value: NbrBonReceptionNonValide }
+  ],
+            colors: ['#9FA8DA', '#5C6BC0']
+        });
+        //BON LIVRAISON CLIENT
+        //------------------------------------------
+        Morris.Line({
+            element: 'BonLivraisonChart',
+            data: BonLivraison,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Series A', 'Series B'],
+            lineColors: ['#80DEEA', '#00BCD4']
+        });
+        //---------------------------------------
+        Morris.Donut({
+            element: 'BonLivraisonDonut',
+            data: [
+    { label: "BON LIVRAISONS VALIDEES", value: NbrLivraisonValide },
+    { label: "BON LIVRAISONS NON VALIDEES", value: NbrLivraisonNonValide }
+  ],
+            colors: ['#80DEEA', '#00BCD4']
+        });
+        //FACTURE FOURNISSEUR
+        //------------------------------------------
+        Morris.Line({
+            element: 'FacturesFournisseursChart',
+            data: FactureFournisseur,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Series A', 'Series B'],
+            lineColors: ['#A5D6A7', '#43A047']
+        });
+        //---------------------------------------
+        Morris.Donut({
+            element: 'FacturesFournisseursDonut',
+            data: [
+    { label: "FACTURES PAYEES", value: NbrFactureFournisseurPaye },
+    { label: "FACTURES NON PAYEES", value: NbrFactureFournisseurNonPaye }
+  ],
+            colors: ['#A5D6A7', '#43A047']
+        });
+        //FACTURE CLIENT
+        //------------------------------------------
+        Morris.Line({
+            element: 'FacturesClientChart',
+            data: FactureClient,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Series A', 'Series B'],
+            lineColors: ['#FFB74D', '#F57C00']
+        });
+        //---------------------------------------
+        Morris.Donut({
+            element: 'FacturesClientDonut',
+            data: [
+    { label: "FACTURES PAYEES", value: NbrFactureClientPaye },
+    { label: "FACTURES NON PAYEES", value: NbrFactureClientNonPaye }
+  ],
+            colors: ['#FFB74D', '#F57C00']
+        });
+        //AVOIRS
+        //------------------------------------------
+        Morris.Line({
+            element: 'AvoirFournisseurClientChart',
+            data: Avoir,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: ['a', 'b'],
+            labels: ['Series A', 'Series B'],
+            lineColors: ['#D7CCC8', '#8D6E63']
+        });
+        //---------------------------------------
+        Morris.Donut({
+            element: 'AvoirFournisseurClientDonut',
+            data: [
+    { label: "AVOIRS FOURNISSEURS", value: NbrAvoirFournisseur },
+    { label: "AVOIRS CLIENTS", value: NbrAvoirClient }
+  ],
+            colors: ['#D7CCC8', '#8D6E63']
+        });
+        //DEVIS
+        //------------------------------------------
+        Morris.Line({
+            element: 'DevisClientchart',
+            data: Devis,
+            parseTime: false,
+            xkey: 'y',
+            ykeys: 'a',
+            labels: 'DEVIS',
+            lineColors: ['#B0BEC5', '#8D6E63']
+        });
+        //---------------------------------------
+    });
+</script>

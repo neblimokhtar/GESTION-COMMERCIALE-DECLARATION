@@ -1,0 +1,268 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>
+            PRODUITS</h2>
+        <ol class="breadcrumb">
+            <li><a>Paramètrage</a> </li>
+            <li class="active"><strong>@ViewBag.Mode</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("Send", "Stock", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Informations Générales</label>
+                <div class="col-sm-10">
+                    <input type="text" placeholder="Code" class="form-control m-b" name="CodeProduit" readOnly="true" value="@ViewBag.CodeProduit">
+                    <input type="text" placeholder="Libellé" class="form-control m-b" name="Libelle" id="Libelle"
+                        required value="@Model.LIBELLE">
+                    <textarea placeholder="Désignation" class="form-control m-b" name="Designation" id="Designation"
+                        rows="2" cols="2"></textarea>
+                    <div style="display: flex;">
+                        <select class="form-control m-b" name="Famille" id="Famille">
+                        </select>
+                        <span class="label label-info" style="height: 33px; margin-right: 2px; cursor: pointer;">
+                            <i class="fa fa-plus-square" style="padding-top: 6px;" title="Ajouter" onclick="POPUP('CREATE')">
+                            </i></span><span class="label label-info" style="height: 33px; margin-right: 2px;
+                                cursor: pointer;" title="Modifier" onclick="POPUP('EDIT')"><i class="fa fa-pencil-square-o"
+                                    style="padding-top: 6px;"></i></span><span class="label label-info" style="height: 33px;
+                                        margin-right: 2px; cursor: pointer;" title="Supprimer" onclick="Delete()"><i class="fa fa-trash-o"
+                                            style="padding-top: 6px;"></i></span>
+                    </div>
+                    <input type="text" placeholder="Code à barre" class="form-control m-b" name="CodeABarre" value="@Model.CODE_A_BARE">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="Bloque" id="Bloque" value="false">
+                            <small class="text-navy">Bloqué</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Prix</label>
+                <div class="col-sm-10">
+                    <input type="number" placeholder="Prix Achat HT" class="form-control m-b" name="PrixAchatHT"
+                        step="any" value="@Model.PRIX_ACHAT_HT" id="PrixAchatHT">
+                    <input type="number" placeholder="Prix Vente HT" class="form-control m-b" name="PrixVenteHT"
+                        step="any" value="@Model.PRIX_VENTE_HT" id="PrixVenteHT">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="WithTva" name="WithTva" value="true">
+                            <small class="text-navy">TVA</small>
+                        </label>
+                    </div>
+                    <input type="number" placeholder="TVA" class="form-control m-b" name="TVA" step="any" id="TVA" value="@Model.TVA">
+                    <input type="number" placeholder="Prix Vente TTC" class="form-control m-b" name="PrixVenteTTC"
+                        step="any" value="@Model.PRIX_VENTE_TTC" readOnly="true" id="PrixVenteTTC">
+                    <input type="number" placeholder="Quantité actuelle" class="form-control m-b" name="Quantite"
+                        step="any" value="@Model.QUANTITE">
+                    <input type="number" placeholder="Quantité Repture stock" class="form-control m-b"
+                        name="QuantiteRepture" step="any" value="@Model.QUANTITE_REPTURE_STOCK">
+                    <textarea placeholder="Obervation" class="form-control m-b" name="Observation" rows="2"
+                        cols="2">@Model.OBSERVATIONS</textarea>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="WTVA" name="WTVA" />
+        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+            <strong>Enregistrer</strong></button>
+    }
+</div>
+<div class="modal inmodal fade" id="FromFamille" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">
+                    Famille</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" placeholder="Libellé" class="form-control m-b" id="LibelleFamille">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">
+                    Fermer</button>
+                <button type="button" class="btn btn-primary" id="SaveFamille">
+                    Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function POPUP(param) {
+        if ((param == "EDIT" && $('#Famille').val() != "") || param == "CREATE") {
+            window.SelectedMode = param;
+            window.SelectedFamille = $('#Famille').val();
+            if (param == "EDIT") {
+                var Valeur = $("#Famille option:selected").text();
+                $('#LibelleFamille').val(Valeur);
+            }
+            $('#FromFamille').modal();
+        }
+    }
+    function Delete() {
+        var Conf = confirm("Voulez vous Supprimer cette famille ?");
+        if (Conf == true) {
+            var ParamPassed = $('#Famille').val();
+            $.ajax({
+                type: 'POST',
+                url: "/Stock/DeleteFamille?ParamPassed=" + ParamPassed,
+                success: function (response) {
+                    RemplirListe();
+                }
+            });
+        }
+        var preloader = $('<div>', { 'class': 'preloader' }).appendTo('body');
+        $(this)
+               .ajaxStart(function () {
+                   preloader.fadeIn();
+               })
+               .ajaxStop(function () {
+                   preloader.delay(800).fadeOut();
+               });
+    }
+    function RemplirListe() {
+        $('#Famille').find('option').remove();
+        $('#Famille').append($('<option>', {
+            value: "0",
+            text: ""
+        }));
+        $.ajax({
+            type: 'POST',
+            url: "/Stock/RecupererToutFamille",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    $('#Famille').append($('<option>', {
+                        value: item.ID,
+                        text: item.LIBELLE
+                    }));
+                });
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('#WithTva').attr("checked", true);
+        $("#WTVA").val("true");
+        RemplirListe();
+        var Mode = "@ViewBag.Mode";
+        if (Mode == "Modifier un produit") {
+            var WithTVA = "@Model.AVEC_TVA";
+            var Bloque = "@Model.BLOQUE";
+            if (WithTVA == "True") {
+                $('#WithTva').attr("checked", true);
+                $('#WithTva').attr("value", true);
+                $("#TVA").attr("disabled", false);
+                $("#TVA").val("");
+                $("#WTVA").val("true");
+            }
+            else {
+                $('#WithTva').attr("checked", false);
+                $('#WithTva').attr("value", false);
+                $("#TVA").attr("disabled", true);
+                var PrixVenteHT = parseFloat($("#PrixVenteHT").val());
+                $("#PrixVenteTTC").val(PrixVenteHT);
+                $("#WTVA").val("true");
+            }
+            if (Bloque == "True") {
+                $("#Bloque").attr("value", "true");
+                $('#Bloque').attr("checked", true);
+            }
+            else {
+                $("#Bloque").attr("value", "false");
+                $('#Bloque').attr("checked", false);
+            }
+            var PRIX_ACHAT_HT = "@Model.PRIX_ACHAT_HT";
+            var PRIX_VENTE_HT = "@Model.PRIX_VENTE_HT";
+            var PRIX_VENTE_TTC = "@Model.PRIX_VENTE_TTC";
+            PRIX_ACHAT_HT = PRIX_ACHAT_HT.replace(",", ".");
+            PRIX_VENTE_HT = PRIX_VENTE_HT.replace(",", ".");
+            PRIX_VENTE_TTC = PRIX_VENTE_TTC.replace(",", ".");
+            $("#PrixAchatHT").val(PRIX_ACHAT_HT);
+            $("#PrixVenteHT").val(PRIX_VENTE_HT);
+            $("#PrixVenteTTC").val(PRIX_VENTE_TTC);
+            var Famille = "@Model.FAMILLE";
+            $(document)
+                .ajaxStart(function () {
+                })
+                .ajaxStop(function () {
+                    $("#Famille option").each(function (i, item) {
+                        if ($(this).attr("value") == Famille) {
+                            $(this).attr("selected", true);
+                        }
+                    });
+                });
+        }
+        //---------------------------------------------
+        $('#WithTva').change(function () {
+            if ($(this).is(":checked")) {
+                $("#TVA").attr("disabled", false);
+                $("#TVA").val("");
+                $(this).attr("value", "true");
+                $("#WTVA").val("true");
+            }
+            else {
+                $("#TVA").attr("disabled", true);
+                var PrixVenteHT = parseFloat($("#PrixVenteHT").val());
+                $("#PrixVenteTTC").val(PrixVenteHT);
+                $(this).attr("value", "false");
+                $(this).attr("checked", false);
+                $("#WTVA").val("false");
+            }
+        });
+        $('#Bloque').change(function () {
+            if ($(this).is(":checked")) {
+                $(this).attr("value", "true");
+            }
+            else {
+                $(this).attr("value", "false");
+            }
+        });
+        //----------------------------------------
+        var $text = $('#Designation');
+        var $input = $('#Libelle');
+        $input.on('keydown', function () {
+            setTimeout(function () {
+                $text.html($input.val());
+            }, 0);
+        });
+        //---------------------------------------
+        $('input[type=number]').on('keydown', function () {
+            if ($("#PrixVenteHT").val() != "" && $("#TVA").val() != "") {
+                var PrixVenteHT = parseFloat($("#PrixVenteHT").val());
+                var TVA = parseFloat($("#TVA").val());
+                var PrixVenteTTC = PrixVenteHT + ((PrixVenteHT * TVA) / 100);
+                $("#PrixVenteTTC").val(PrixVenteTTC.toFixed(3));
+            }
+        });
+        $('input[type=number]').on('keyup', function () {
+            if ($("#PrixVenteHT").val() != "" && $("#TVA").val() != "") {
+                var PrixVenteHT = parseFloat($("#PrixVenteHT").val());
+                var TVA = parseFloat($("#TVA").val());
+                var PrixVenteTTC = PrixVenteHT + ((PrixVenteHT * TVA) / 100);
+                $("#PrixVenteTTC").val(PrixVenteTTC.toFixed(3));
+            }
+        });
+    });
+    $('#SaveFamille').click(function () {
+        var ParamPassed = $("#LibelleFamille").val();
+        $.ajax({
+            type: 'POST',
+            url: "/Stock/AddFamille?ParamPassed=" + ParamPassed + "&SelectedMode=" + SelectedMode + "&SelectedFamille=" + SelectedFamille,
+            success: function (response) {
+                $("#LibelleFamille").val("");
+                $('#FromFamille').modal('hide');
+                RemplirListe();
+            }
+        });
+    });
+    
+</script>

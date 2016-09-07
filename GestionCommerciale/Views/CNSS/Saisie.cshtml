@@ -1,0 +1,166 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>SAISIE SALAIRE MENSUELLE</h2>
+        <ol class="breadcrumb">
+            <li><a>CNSS</a> </li>
+            <li class="active"><strong>SAISIE SALAIRE MENSUELLE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-top: 4px; pull-right">
+                    <h4 style="float: left;"><b>Saisie Salaire Mensuelle</b></h4>
+                    <div class="ibox-tools" style="display: inline-flex;">
+                        <select class="form-control pull-right" name="SOCIETE" id="SOCIETE">
+                            @foreach (dynamic item in Model)
+                            {
+                                <option value="@item.ID">@item.SOCIETE</option>
+                            }
+                        </select>
+                        <select class="form-control pull-right" name="MOIS" id="MOIS">
+                            <option value="1">JANVIER</option>
+                            <option value="2">FEVRIER</option>
+                            <option value="3">MARS</option>
+                            <option value="4">AVRIL</option>
+                            <option value="5">MAI</option>
+                            <option value="6">JUIN</option>
+                            <option value="7">JUILLET</option>
+                            <option value="8">AOUT</option>
+                            <option value="9">SEPTEMBRE</option>
+                            <option value="10">OCTOBRE</option>
+                            <option value="11">NOVEMBRE</option>
+                            <option value="12">DECEMBRE</option>
+                        </select>
+                        <select class="form-control pull-right" name="ANNEE" id="ANNEE">
+                            @for (int i = DateTime.Today.Date.Year; i >= DateTime.Today.Date.AddYears(-30).Date.Year; i--)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <button class="btn btn-success " type="button" id="BtnFiltrer">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Chercher</span></button>
+                        <button class="btn btn-primary " type="button" id="PrintBtn">
+                            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                    </div>
+                </div>
+                <div class="ibox-content" id="Content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="Tableau">
+                        <thead>
+                            <tr>
+                                <th>CIN
+                                </th>
+                                <th>NOM & PRENOM
+                                </th>
+                                <th>MOIS
+                                </th>
+                                <th>ANNEE
+                                </th>
+                                <th>SALAIRE
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class='custom-menu'>
+    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+        Modifier</li>
+    <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>Supprimer</li>
+</ul>
+<script type="text/javascript">
+    $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+        if (event.button == 2) {
+            window.myValue = $(this).attr('id');
+            event.preventDefault();
+            var Width = $("#NavigationBar").width();
+            $(".custom-menu").finish().toggle(100).css({
+                top: event.pageY + "px",
+                left: (event.pageX) - Width + "px"
+            });
+        }
+    });
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+    $(".custom-menu li").click(function () {
+        var MyValue = window.myValue;
+        switch ($(this).attr("data-action")) {
+            case "Edit": Btn_Edit_click(MyValue); break;
+            case "Delete": Btn_Delete_click(MyValue); break;
+        }
+        $(".custom-menu").hide(100);
+    });
+
+    $(document).on("click","#BtnFiltrer",function (e){
+        var SOCIETE = $("#SOCIETE").val();
+        var MOIS = $("#MOIS").val();
+        var ANNEE = $("#ANNEE").val();
+        $.get('@Url.Action("GetSalaryByFilter","CNSS")?Societe=' + SOCIETE + '&Annee=' + ANNEE + '&Mois='+MOIS, function (data) {
+            $('#Content').html(data);
+        });
+    });
+    $("#PrintBtn").click(function () {
+        var SOCIETE = $("#SOCIETE").val();
+        var MOIS = $("#MOIS").val();
+        var ANNEE = $("#ANNEE").val();
+        window.open("/CNSS/PrintSeizure?SOCIETE="+SOCIETE+"&MOIS="+MOIS+"&ANNEE="+ANNEE, '_blank');
+    });
+    function Btn_Edit_click(MyValue) {
+        var Societe = "@ViewBag.CODE_SOCIETE";
+        window.location.href = "/CNSS/FormEmployee?Mode=Edit&Code=" + MyValue + "&Societe=" + Societe;
+    }
+    function Btn_Delete_click(MyValue) {
+        var r = confirm("Voulez-vous vraiment supprimer cet employée !");
+        if (r == true) {
+            var Societe = "@ViewBag.CODE_SOCIETE";
+            window.location.href = "/CNSS/DeleteEmp?Code=" + MyValue + "&Filter=" + Societe;
+        } else {
+            location.reload();
+        }
+    }
+    $(document).ready(function () {
+        var Action = "@ViewBag.MODE";
+        if (Action == "Create") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Ajout avec Succés', '');
+
+            }, 1300);
+        }
+        if (Action == "Edit") {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 3000
+                };
+                toastr.success('Modification avec Succés', '');
+
+            }, 1300);
+        }
+    });
+</script>

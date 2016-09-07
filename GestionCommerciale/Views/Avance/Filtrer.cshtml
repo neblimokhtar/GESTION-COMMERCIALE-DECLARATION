@@ -1,0 +1,96 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="ibox-content" id="Content">
+    <div class="row">
+        <span class="badge badge-info" style="float: right; margin-right: 15px; margin-bottom: 15px;">
+            <h1 id="TOTAL">@ViewBag.TOTAL</h1>
+        </span>
+
+    </div>
+    <table class="table table-striped table-bordered table-hover dataTables-example"
+        id="Tableau">
+        <thead>
+            <tr>
+                <th>MATRICULE
+                </th>
+                <th>NOM PRENOM
+                </th>
+                <th>MONTANT
+                </th>
+                <th>DATE
+                </th>
+                <th>TYPE
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (dynamic item in Model)
+            {
+                <tr id="@item.ID">
+                    <td>
+                        @item.EMPLOYEES.NUMERO
+                    </td>
+                    <td>
+                        @item.EMPLOYEES.FULLNAME
+                    </td>
+                    <td>
+                        @item.MONTANT
+                    </td>
+                    <td>
+                        @item.DATE.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.TYPE
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    var table = $('#Tableau').DataTable();
+    //$('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+    //    if (event.button == 2) {
+    //        window.myValue = $(this).attr('id');
+    //        event.preventDefault();
+    //        var Width = $("#NavigationBar").width();
+    //        $(".custom-menu").finish().toggle(100).css({
+    //            top: event.pageY + "px",
+    //            left: (event.pageX) - Width + "px"
+    //        });
+    //    }
+    //});
+    //$(document).bind("mousedown", function (e) {
+    //    if (!$(e.target).parents(".custom-menu").length > 0) {
+    //        $(".custom-menu").hide(100);
+    //    }
+    //});
+    //$(".custom-menu li").click(function () {
+    //    var MyValue = window.myValue;
+    //    switch ($(this).attr("data-action")) {
+    //        case "Detail": Btn_Detailt_click(MyValue); break;
+    //        case "Delete": Btn_Delete_click(MyValue); break;
+    //        case "Edit": Btn_Edit_click(MyValue); break;
+    //    }
+    //    $(".custom-menu").hide(100);
+    //});
+    //function Btn_Detailt_click(MyValue) {
+    //    window.location.href = "/DeclarationEmployeur/Detail?Code=" + MyValue;
+    //}
+    //function Btn_Edit_click(MyValue) {
+    //    window.location.href = "/Avance/Form?Code=" + MyValue + "&Mode=Edit";
+    //}
+    //function Btn_Delete_click(MyValue) {
+    //    var r = confirm("Voulez vous vraiment supprimer cette demande ?");
+    //    if (r == true) {
+    //        window.location.href = "/Avance/Delete?Code=" + MyValue;
+    //    }
+    //}
+</script>

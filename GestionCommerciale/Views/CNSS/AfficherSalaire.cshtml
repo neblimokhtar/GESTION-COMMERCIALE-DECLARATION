@@ -1,0 +1,68 @@
+﻿<div class="ibox-content" id="Content">
+    <table class="table table-striped table-bordered table-hover dataTables-example"
+        id="Tableau">
+        <thead>
+            <tr>
+                <th>CIN
+                </th>
+                <th>NOM & PRENOM
+                </th>
+                <th>MOIS
+                </th>
+                <th>ANNEE
+                </th>
+                <th>SALAIRE
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (dynamic item in Model)
+            {
+                <tr id="@item.ID">
+                    <td>
+                        @item.CIN
+                    </td>
+                    <td>
+                        @item.FULLNAME
+                    </td>
+                    <td>
+                        @item.MOIS
+                    </td>
+                    <td>
+                        @item.ANNEE
+                    </td>
+                    <td>
+                        @item.SALAIRE
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript" src="~/js/jquery.jeditable.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="~/js/jquery.dataTables.editable.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Tableau').dataTable().makeEditable({
+            "aoColumns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    {
+                        "onsubmit": function (settings, original) {
+                            if (isNaN($('input', this).val()))
+                                $('input', this).val(original.revert);
+                        }
+                    }
+            ]
+        });
+    });
+</script>

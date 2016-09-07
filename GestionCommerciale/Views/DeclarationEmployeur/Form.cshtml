@@ -1,0 +1,222 @@
+﻿<link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>EMPLOYEUR</h2>
+        <ol class="breadcrumb">
+            <li><a>DECLARATION EMPLOYEUR</a> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "DeclarationEmployeur", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEE</label>
+                <div class="col-lg-10">
+                    <input type="text" name="ANNEE" required class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    SOCIETE</label>
+                <div class="col-lg-10">
+                    <select name="SOCIETE" class="form-control">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.ID">@item.SOCIETE</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    CODE ACTE</label>
+                <div class="col-lg-10">
+                    <select name="CODE_ACTE" class="form-control">
+                        <option value="0">0 : Spontané</option>
+                        <option value="1">1 : Régularisation</option>
+                        <option value="2">2 : Redressement</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 1</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_1" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 2</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_2" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 3</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_3" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 4</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_4" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 5</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_5" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 6</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_6" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEXE 7</label>
+                <div class="col-lg-10">
+                    <input type="file" name="ANNEXE_7" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    RECAP</label>
+                <div class="col-lg-10">
+                    <input type="file" name="RECAP" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="float: right; display: flex;">
+            <div class="form-group" style="margin-right: 15px; margin-top: 15px;">
+                <div class="btn-group">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                        Generer
+    <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" id="ANNEXE_1">ANNEXE 1</a></li>
+                        <li><a href="#" id="ANNEXE_2">ANNEXE 2</a></li>
+                        <li><a href="#" id="ANNEXE_3">ANNEXE 3</a></li>
+                        <li><a href="#" id="ANNEXE_4">ANNEXE 4</a></li>
+                        <li><a href="#" id="ANNEXE_5">ANNEXE 5</a></li>
+                        <li><a href="#" id="ANNEXE_6">ANNEXE 6</a></li>
+                        <li><a href="#" id="ANNEXE_7">ANNEXE 7</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" id="RECAP">RECAP</a></li>
+                    </ul>
+                </div>
+                @*<input type="submit" name="Submit" id="Submit" value="Generer" class="btn btn-info" />*@
+            </div>
+            <div class="form-group" style="margin-right: 15px; margin-top: 15px;">
+                <input type="button" name="Save" id="Save" value="Generer & Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+        <input type="hidden" id="Action" name="Action" />
+    }
+</div>
+<script type="text/javascript">
+    $("#Save").click(function () {
+        $("#Action").val("SAVE");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#RECAP").click(function () {
+        $("#Action").val("RECAP");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_1").click(function () {
+        $("#Action").val("ANNEXE_1");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_2").click(function () {
+        $("#Action").val("ANNEXE_2");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_3").click(function () {
+        $("#Action").val("ANNEXE_3");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_4").click(function () {
+        $("#Action").val("ANNEXE_4");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_5").click(function () {
+        $("#Action").val("ANNEXE_5");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_6").click(function () {
+        $("#Action").val("ANNEXE_6");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+    $("#ANNEXE_7").click(function () {
+        $("#Action").val("ANNEXE_7");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#Action").val("");
+        $("form").attr("target", "_self");
+    });
+</script>

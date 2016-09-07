@@ -1,0 +1,148 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>
+            @ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li><a>Paramètrage</a> </li>
+            <li class="active"><strong>@ViewBag.Mode &nbsp; @ViewBag.Type</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("Send", "Parametrage", new { Mode = ViewBag.Mode, Type = ViewBag.Type, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <label class="col-sm-12">
+                Informations Générales</label>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    RAISON SOCIALE</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="Nom" required value="@Model.NOM">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    ADRESSE</label>
+                <div class="col-sm-10">
+                    <textarea placeholder="Adresse" class="form-control m-b" name="Adresse" rows="2"
+                        cols="2">@Model.ADRESSE</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    A CONTACTER</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="Contact" value="@Model.CONTACT">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    TELEPHONE</label>
+                <div class="col-sm-10">
+                    <input type="tel"  class="form-control m-b" name="Telephone" value="@Model.TELEPHONE">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    FAX</label>
+                <div class="col-sm-10">
+                    <input type="tel"  class="form-control m-b" name="Fax" value="@Model.FAX">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    EMAIL</label>
+                <div class="col-sm-10">
+                    <input type="email"  class="form-control m-b" name="Email" value="@Model.EMAIL">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    SITE WEB</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="SiteWeb" value="@Model.SITE_WEB">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-12">
+                Informations Fiscales</label>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    MATRICULE FISCAL</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="IdFiscal" value="@Model.ID_FISCAL" required id="IdFiscal">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    AI</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="AI" value="@Model.AI">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    NIS</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="NIS" value="@Model.NIS">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    RC</label>
+                <div class="col-sm-10">
+                    <input type="text"  class="form-control m-b" name="RC" value="@Model.RC">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    RIB</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control m-b" name="RIB" value="@Model.RIB">
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+            <strong>Enregistrer</strong></button>
+    }
+</div>
+<script type="text/javascript">
+    $('form').validate({
+        rules: {
+            IdFiscal: {
+                maxlength: 13,
+                minlength: 13
+            },
+        }
+    });
+</script>

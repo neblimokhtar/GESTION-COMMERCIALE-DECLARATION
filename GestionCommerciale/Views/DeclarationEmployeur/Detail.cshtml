@@ -1,0 +1,158 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>DECLARATIONS EMPLOYEURS</h2>
+        <ol class="breadcrumb">
+            <li><a>EMPLOYEUR</a> </li>
+            <li class="active"><strong>DETAILS DU DECLARATION</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="file-manager">
+                        <button class="btn btn-primary btn-block">@ViewBag.CODE</button>
+                        <div class="hr-line-dashed"></div>
+                        <ul class="folder-list" style="padding: 0">
+                            <li><i class="fa fa-university"></i><strong>SOCIETE </strong>@ViewBag.SOCIETE</li>
+                            <li><i class="fa fa-calendar"></i><strong>ANNEE </strong>@ViewBag.ANNEE</li>
+                            <li><i class="fa fa-clock-o"></i><strong>DATE </strong>@ViewBag.DATE</li>
+                            <li><i class="fa fa-folder"></i><strong>CODE ACTE </strong>@ViewBag.ACTE</li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe1?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 1.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe2?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 2.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe3?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 3.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe4?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 4.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe5?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 5.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                           <a href="/DeclarationEmployeur/PrintAnnexe6?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 6.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="/DeclarationEmployeur/PrintAnnexe7?Code=@ViewBag.ID" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    ANNEXE 7.pdf
+                                            <br />
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.file-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+    });
+</script>

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>DECLARATIONS</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="~/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/MonStyle.css" rel="stylesheet">
+    <script type="text/javascript" src="~/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script type="text/javascript" src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.spline.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="~/js/plugins/peity/jquery.peity.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/peity-demo.js"></script>
+    <script type="text/javascript" src="~/js/inspinia.js"></script>
+    <script type="text/javascript" src="~/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/gritter/jquery.gritter.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/sparkline-demo.js"></script>
+    <script type="text/javascript" src="~/js/plugins/chartJs/Chart.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/js/jquery.validate.min.js" type="text/javascript"></script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+
+                <h3 class="logo-name">V-IT</h3>
+
+            </div>
+            <h3>Déclarations</h3>
+            <p>
+                
+            </p>
+            <p>Veuillez s'authentifier !</p>
+            @RenderBody()
+            <p class="m-t"><small></small> </p>
+        </div>
+    </div>
+</body>
+@RenderSection("scripts", required: false)
+</html>

@@ -1,0 +1,96 @@
+﻿<link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>CNSS</h2>
+        <ol class="breadcrumb">
+            <li><a>CNSS</a> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("Upload", "CNSS", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    TRIMESTRE</label>
+                <div class="col-lg-10">
+                    <select name="TRIMESTRE" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    ANNEE</label>
+                <div class="col-lg-10">
+                    <input type="text" name="ANNEE" required class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    SOCIETE</label>
+                <div class="col-lg-10">
+                    <select name="SOCIETE" class="form-control">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.ID">@item.SOCIETE</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    FICHIER SAGE</label>
+                <div class="col-lg-10">
+                    <input type="file" name="FileUpload" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="display:none">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                    FICHIER EXCEL</label>
+                <div class="col-lg-10">
+                    <input type="file" name="FileUploadExcel" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="float: right;display: flex;">
+            <div class="form-group" style="margin-right: 15px; margin-top: 15px;">
+                <input type="submit" name="Submit" id="Submit" value="Generer" class="btn btn-primary" />
+            </div>
+            <div class="form-group" style="margin-right: 15px; margin-top: 15px;">
+                <input type="button" name="Save" id="Save" value="Generer & Enregistrer" class="btn btn-info" />
+            </div>
+        </div>
+        <input type="hidden" id="WithSave" name="WithSave"/>
+    }
+</div>
+<script type="text/javascript">
+    $("#Save").click(function () {
+        $("#WithSave").val("true");
+        $("form").attr("target", "_blank");
+        $("form").submit();
+        $("#WithSave").val("false");
+        $("form").attr("target", "_self");
+    });
+</script>

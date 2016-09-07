@@ -1,0 +1,107 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+@using GestionCommerciale.Models;
+<table class="table table-striped table-bordered table-hover dataTables-example"
+    id="Tableau">
+    <thead>
+        <tr>
+            <th>N°
+            </th>
+            <th>AUTORISATION
+            </th>
+            <th>N°BC
+            </th>
+            <th>DATE BC
+            </th>
+            <th>MATRICULE FOURNISSEUR
+            </th>
+            <th>FOURNISSEUR
+            </th>
+            <th>NUMERO FACTURE
+            </th>
+            <th>DATE FACTURE
+            </th>
+            <th>PRIX HT
+            </th>
+            <th>TVA
+            </th>
+            <th>OBJET
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (dynamic item in Model)
+        {
+            <tr id="@item.ID">
+                <td>
+                    @item.NUMERO_ORDRE
+                </td>
+                <td>
+                    @item.NUMERO_AUTORISATION
+                </td>
+                <td>
+                    @item.NUMERO_BC
+                </td>
+                <td>
+                    @item.DATE_BC.ToShortDateString()
+                </td>
+                <td>
+                    @item.FOURNISSEURS.ID_FISCAL
+                </td>
+                <td>
+                    @item.FOURNISSEURS.NOM
+                </td>
+                <td>
+                    @item.NUMERO_FACTURE
+                </td>
+                <td>
+                    @item.DATE_FACTURE.ToShortDateString()
+                </td>
+                <td>
+                    @item.PRIX_HT
+                </td>
+                <td>
+                    @item.MONTANT_TVA
+                </td>
+                <td>
+                    @item.OBJET
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+<ul class='custom-menu'>
+    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+        Modifier</li>
+</ul>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+    $('#Tableau tbody').on('dblclick', 'tr', function (event) {
+        Btn_Edit_click($(this).attr('id'));
+    });
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+    $(".custom-menu li").click(function () {
+        var MyValue = window.myValue;
+        switch ($(this).attr("data-action")) {
+            case "Edit": Btn_Edit_click(MyValue); break;
+        }
+        $(".custom-menu").hide(100);
+    });
+    function Btn_Edit_click(MyValue) {
+        var Code = "@ViewBag.Code";
+        window.location.href = "/DeclarationBCD/SecondEdit?Code=" + Code + "&ParamPassed=" + MyValue;
+    }
+</script>
