@@ -52,8 +52,13 @@
                                 <i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Filtrer</span></button>
                         </div>
                         <div class="col-md-6">
-                            <button class="btn btn-primary " type="button" id="PrintBtn">
-                                <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;Imprimer <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li id="PrintBtn"><a href="#">Detail</a></li>
+                                    <li id="PrintGBtn"><a href="#">Groupement</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,7 +114,13 @@
         var EMPLOYEE = $("#employee").val();
         var START = $("#START").val();
         var END = $("#END").val();
-        window.open('/Avance/PrintFilter?CODE=' + EMPLOYEE + '&START=' + START + '&END=' + END, '_blank');
+        window.open('/Avance/PrintFilter?CODE=' + EMPLOYEE + '&START=' + START + '&END=' + END+'&MODE=DETAIL', '_blank');
+    });
+    $("#PrintGBtn").click(function () {
+        var EMPLOYEE = $("#employee").val();
+        var START = $("#START").val();
+        var END = $("#END").val();
+        window.open('/Avance/PrintFilter?CODE=' + EMPLOYEE + '&START=' + START + '&END=' + END + '&MODE=GROUP', '_blank');
     });
     $(document).ready(function () {
         $("#START").datepicker({

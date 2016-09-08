@@ -19,7 +19,7 @@ namespace GestionCommerciale.Controllers
         GestionCommercialeEntity BD = new GestionCommercialeEntity();
         public ActionResult Index()
         {
-            List<AVANCES> Liste = BD.AVANCES.OrderByDescending(Element=>Element.DATE).ToList();
+            List<AVANCES> Liste = BD.AVANCES.OrderByDescending(Element => Element.DATE).ToList();
             return View(Liste);
         }
         public ActionResult AvanceUser()
@@ -53,47 +53,86 @@ namespace GestionCommerciale.Controllers
             ViewBag.TOTAL = TOTAL.ToString("F3");
             return PartialView(Liste);
         }
-        public ActionResult PrintFilter(string CODE, string START, string END)
+        public ActionResult PrintFilter(string CODE, string START, string END, string Mode)
         {
+            dynamic dt = null;
 
-            List<AVANCES> Liste = BD.AVANCES.ToList();
-            if (!string.IsNullOrEmpty(CODE))
+            if (Mode == "DETAIL")
             {
-                int SelectedUser = int.Parse(CODE);
-                Liste = Liste.Where(Element => Element.EMPLOYEES.ID == SelectedUser).ToList();
+                List<AVANCES> Liste = BD.AVANCES.ToList();
+                if (!string.IsNullOrEmpty(CODE))
+                {
+                    int SelectedUser = int.Parse(CODE);
+                    Liste = Liste.Where(Element => Element.EMPLOYEES.ID == SelectedUser).ToList();
+                }
+                if (!string.IsNullOrEmpty(START))
+                {
+                    DateTime StartDate = DateTime.Parse(START);
+                    Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+                }
+                if (!string.IsNullOrEmpty(END))
+                {
+                    DateTime EndDate = DateTime.Parse(END);
+                    Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+                }
+                dt = from Element in Liste
+                     select new
+                     {
+                         FULLNAME = Element.EMPLOYEES.FULLNAME,
+                         NUMERO = Element.EMPLOYEES.NUMERO,
+                         MONTANT = Element.MONTANT,
+                         DATE = Element.DATE.ToShortDateString(),
+                         DU = START,
+                         AU = END,
+                         TYPE = Element.TYPE
+                     };
             }
-            if (!string.IsNullOrEmpty(START))
+            if (Mode == "GROUP")
             {
-                DateTime StartDate = DateTime.Parse(START);
-                Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+                List<EMPLOYEES> Liste = BD.EMPLOYEES.ToList();
+                dt = from Element in Liste
+                     select new
+                     {
+                         FULLNAME = Element.FULLNAME,
+                         NUMERO = Element.NUMERO,
+                         MONTANT = GetMontant(Element, START, END),
+                         DATE = string.Empty,
+                         DU = START,
+                         AU = END,
+                         TYPE = string.Empty
+                     };
             }
-            if (!string.IsNullOrEmpty(END))
-            {
-                DateTime EndDate = DateTime.Parse(END);
-                Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
-            }
-            dynamic dt = from Element in Liste
-                         select new {
-                             FULLNAME=Element.EMPLOYEES.FULLNAME,
-                             NUMERO = Element.EMPLOYEES.NUMERO,
-                             MONTANT=Element.MONTANT,
-                             DATE=Element.DATE.ToShortDateString(),
-                             DU=START,
-                             AU=END,
-                             TYPE=Element.TYPE
-                         };
             ReportDocument rptH = new ReportDocument();
             string FileName = Server.MapPath("/Reports/PRINT_FILTER_AVANCE.rpt");
             rptH.Load(FileName);
-            //rptH.SummaryInfo.ReportTitle = "ANNEXE 1 ";
             rptH.SetDataSource(dt);
             Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }
+        public decimal GetMontant(EMPLOYEES Employee, string Start, string End)
+        {
+            decimal Result = 0;
+            List<AVANCES> Liste = BD.AVANCES.Where(Elment => Elment.EMPLOYEES.ID == Employee.ID).ToList();
+            if (!string.IsNullOrEmpty(Start))
+            {
+                DateTime StartDate = DateTime.Parse(Start);
+                Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+            }
+            if (!string.IsNullOrEmpty(End))
+            {
+                DateTime EndDate = DateTime.Parse(End);
+                Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+            }
+            foreach (AVANCES Element in Liste)
+            {
+                Result += Element.MONTANT;
+            }
+            return Result;
+        }
         public ActionResult Print(string Filter)
         {
             int ID = int.Parse(Filter);
-            List<AVANCES> Liste = BD.AVANCES.Where(Element=>Element.ID==ID).ToList();
+            List<AVANCES> Liste = BD.AVANCES.Where(Element => Element.ID == ID).ToList();
             dynamic dt = from Element in Liste
                          select new
                          {
