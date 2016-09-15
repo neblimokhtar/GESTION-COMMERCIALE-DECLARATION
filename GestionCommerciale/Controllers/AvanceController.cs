@@ -366,5 +366,6 @@ namespace GestionCommerciale.Controllers
             BD.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }

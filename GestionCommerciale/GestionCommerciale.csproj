@@ -182,6 +182,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LigneProduit.cs" />
     <Compile Include="Controllers\ParametrageController.cs" />
+    <Compile Include="Controllers\PretController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\VenteController.cs" />
     <Compile Include="Global.asax.cs">
@@ -228,9 +229,11 @@
     <Compile Include="Models\LIGNES_GENERATIONS.cs" />
     <Compile Include="Models\MOUVEMENETS_PRODUITS.cs" />
     <Compile Include="Models\PARAMETRES.cs" />
+    <Compile Include="Models\PRETS.cs" />
     <Compile Include="Models\PRODUITS.cs" />
     <Compile Include="Models\SAISIES.cs" />
     <Compile Include="Models\SOCIETES.cs" />
+    <Compile Include="Models\TRANCHES_PRETS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\AvoirClient.cs">
       <AutoGen>True</AutoGen>
@@ -267,6 +270,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommandeFournisseur.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\PRINT_FILTER_PRET.cs">
+      <DependentUpon>PRINT_FILTER_PRET.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Reports\CrystalReport1.cs">
       <AutoGen>True</AutoGen>
@@ -379,6 +388,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PRINT_AVANCE.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\PRINT_DECLARATION.cs">
       <AutoGen>True</AutoGen>
@@ -414,6 +424,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PRINT_FILTER_AVANCE.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\PRINT_HISTORIQUE_CNSS.cs">
       <AutoGen>True</AutoGen>
@@ -714,6 +725,14 @@
     <Content Include="Views\Avance\Index.cshtml" />
     <Content Include="Views\Avance\Upload.cshtml" />
     <None Include="MODELES EXCEL\RECAP.xls" />
+    <Content Include="Views\Pret\Index.cshtml" />
+    <Content Include="Views\Pret\Form.cshtml" />
+    <Content Include="Views\Pret\Upload.cshtml" />
+    <Content Include="Views\Pret\Tranches.cshtml" />
+    <Content Include="Views\Pret\FormTranche.cshtml" />
+    <Content Include="Views\Pret\Download.cshtml" />
+    <Content Include="Views\Pret\PretUser.cshtml" />
+    <Content Include="Views\Pret\Filtrer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -743,6 +762,10 @@
     <EmbeddedResource Include="Reports\CommandeFournisseur.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CommandeFournisseur.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PRINT_FILTER_PRET.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PRINT_FILTER_PRET.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\CrystalReport1.rpt">
       <Generator>CrystalDecisions.VSShell.CodeGen.ReportCodeGenerator</Generator>

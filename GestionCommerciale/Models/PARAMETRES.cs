@@ -27,6 +27,8 @@ namespace GestionCommerciale.Models
         public byte[] ANNEXE_7 { get; set; }
         public byte[] RECAP { get; set; }
         public byte[] MODELE_AVANCE { get; set; }
+        public byte[] MODELE_PRET { get; set; }
+
     }
-    
+
 }

@@ -51,5 +51,7 @@ namespace GestionCommerciale.Models
         public DbSet<ANNEXE_6> ANNEXE_6 { get; set; }
         public DbSet<ANNEXE_7> ANNEXE_7 { get; set; }
         public DbSet<AVANCES> AVANCES { get; set; }
+        public DbSet<PRETS> PRETS { get; set; }
+        public DbSet<TRANCHES_PRETS> TRANCHES_PRETS { get; set; }
     }
 }
