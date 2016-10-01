@@ -58,14 +58,7 @@
                                         @item.MONTANT.ToString("F3")
                                     </td>
                                     <td>
-                                        @if (item.STATUT == "ARRETE")
-                                        {
-                                            <span class="label label-danger">ARRETE</span>
-                                        }
-                                        @if (item.STATUT == "DEBLOQUE")
-                                        {
-                                            <span class="label label-success">DEBLOQUE</span>
-                                        }
+                                        @item.STATUT
                                     </td>
                                 </tr>
                             }

@@ -80,13 +80,13 @@
                         @item.TYPE
                     </td>
                     <td>
+                        @if (item.STATUT == "NON CLOTURE")
+                        {
+                            <span class="label label-danger">NON CLOTURE</span>
+                        }
                         @if (item.STATUT == "CLOTURE")
                         {
-                            <span class="label label-danger">CLOTURE</span>
-                        }
-                        @if (item.STATUT == "EN COURS")
-                        {
-                            <span class="label label-success">EN COURS</span>
+                            <span class="label label-success">CLOTURE</span>
                         }
                     </td>
                 </tr>

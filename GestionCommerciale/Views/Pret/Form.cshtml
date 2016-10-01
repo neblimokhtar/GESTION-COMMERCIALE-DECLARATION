@@ -30,7 +30,7 @@
                     <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
                         CODE</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" name="CODE_PRET" id="CODE_PRET" readonly required value="@ViewBag.CODE_PRET">
+                        <input type="text" class="form-control" name="CODE_PRET" id="CODE_PRET" required value="@ViewBag.CODE_PRET">
                     </div>
                 </div>
             </div>
@@ -58,19 +58,16 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+            <div class="col-lg-6">
+                                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
                         MONTANT</label>
-                    <div class="col-lg-10">
+                    <div class="col-lg-8">
                         <input type="number" class="form-control" name="MONTANT" id="MONTANT" required value="@Model.MONTANT.ToString().Replace(',', '.')" min="0">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-lg-4 control-label" style="text-align: initial;padding-left: 0px;">
@@ -83,25 +80,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label class="col-lg-4 control-label" style="text-align: initial;">
-                        DATE 1ER RETRAIT</label>
-                    <div class="col-lg-8">
-                        <div class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" class="form-control" name="DATE_ECHEANCE" id="DATE_ECHEANCE" required value="@Model.DATE_ECHEANCE.ToShortDateString()">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
                     <label class="col-lg-4 control-label" style="text-align: initial;padding-left: 0px;">
-                        NOMBRE MOIS</label>
+                        NOMBRE ECHEANCES</label>
                     <div class="col-lg-8">
                         <input type="number" class="form-control" name="NBR_MOIS" id="NBR_MOIS" required value="@ViewBag.NBR">
                     </div>
@@ -113,9 +98,8 @@
                         TYPE</label>
                     <div class="col-lg-8">
                         <select class="form-control" name="TYPE" id="TYPE">
-                            <option value="CHEQUE">CHEQUE</option>
-                            <option value="ESPECE">ESPECE</option>
-                            <option value="BANQUE">BANQUE</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
                         </select>
                     </div>
                 </div>

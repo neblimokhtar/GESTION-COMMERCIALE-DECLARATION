@@ -13,6 +13,7 @@ namespace GestionCommerciale.Models
         public decimal MONTANT { get; set; }
         public DateTime DATE { get; set; }
         public string STATUT { get; set; }
+        public string NUMERO { get; set; }
         [ForeignKey("PRET")]
         public virtual PRETS PRETS { get; set; }
     }

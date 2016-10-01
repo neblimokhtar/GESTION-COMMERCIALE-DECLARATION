@@ -32,7 +32,7 @@
                         id="Tableau">
                         <thead>
                             <tr>
-                                <th>CODE
+                                <th>NUMERO
                                 </th>
                                 <th>MATRICULE
                                 </th>
@@ -44,11 +44,9 @@
                                 </th>
                                 <th>RESTE
                                 </th>
-                                <th>DATE OBTENTION
+                                <th>DATE DECISION
                                 </th>
-                                <th>DATE 1ER RETRAIT
-                                </th>
-                                <th>NOMBRE MOIS
+                                <th>NOMBRE ECHEANCES
                                 </th>
                                 <th>TYPE
                                 </th>
@@ -83,22 +81,19 @@
                                         @item.DATE.ToShortDateString()
                                     </td>
                                     <td>
-                                        @item.DATE_ECHEANCE.ToShortDateString()
-                                    </td>
-                                    <td>
                                         @item.NBR_MOIS
                                     </td>
                                     <td>
                                         @item.TYPE
                                     </td>
                                     <td>
-                                        @if(item.STATUT=="CLOTURE")
+                                        @if (item.STATUT == "NON CLOTURE")
                                         {
-                                            <span class="label label-danger">CLOTURE</span>
+                                            <span class="label label-danger">NON CLOTURE</span>
                                         }
-                                        @if (item.STATUT == "EN COURS")
+                                        @if (item.STATUT == "CLOTURE")
                                         {
-                                            <span class="label label-success">EN COURS</span>
+                                            <span class="label label-success">CLOTURE</span>
                                         }
                                     </td>
                                 </tr>

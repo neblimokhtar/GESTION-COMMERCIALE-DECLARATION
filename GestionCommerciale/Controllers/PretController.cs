@@ -33,7 +33,17 @@ namespace GestionCommerciale.Controllers
                 Element.DATE = DateTime.Today;
                 Element.DATE_ECHEANCE = DateTime.Today;
                 ViewBag.NBR = 1;
-                ViewBag.CODE_PRET = BD.PRETS.Count() > 0 ? BD.PRETS.Select(Elt => Elt.ID).Max() : 1;
+                int NewCode = 1;
+                if (BD.PRETS.Count() > 0)
+                {
+                    List<PRETS> liste = BD.PRETS.ToList();
+                    foreach (PRETS Pret in liste)
+                    {
+                        int Value = int.Parse(Pret.CODE);
+                        if (Value >= NewCode) NewCode = Value;
+                    }
+                }
+                ViewBag.CODE_PRET = NewCode;
             }
             if (Mode == "Edit")
             {
@@ -56,12 +66,12 @@ namespace GestionCommerciale.Controllers
             string employee = Request.Params["employee"] != null ? Request.Params["employee"].ToString() : "0";
             string MONTANT = Request.Params["MONTANT"] != null ? Request.Params["MONTANT"].ToString() : string.Empty;
             string DATE = Request.Params["DATE"] != null ? Request.Params["DATE"].ToString() : string.Empty;
-            string DATE_ECHEANCE = Request.Params["DATE_ECHEANCE"] != null ? Request.Params["DATE_ECHEANCE"].ToString() : string.Empty;
+            //string DATE_ECHEANCE = Request.Params["DATE_ECHEANCE"] != null ? Request.Params["DATE_ECHEANCE"].ToString() : string.Empty;
             string NBR_MOIS = Request.Params["NBR_MOIS"] != null ? Request.Params["NBR_MOIS"].ToString() : string.Empty;
             string TYPE = Request.Params["TYPE"] != null ? Request.Params["TYPE"].ToString() : string.Empty;
 
             DateTime SelectedDate = DateTime.Parse(DATE);
-            DateTime SelectedEcheDate = DateTime.Parse(DATE_ECHEANCE);
+            //DateTime SelectedEcheDate = DateTime.Parse(DATE_ECHEANCE);
             int ID = int.Parse(employee);
             EMPLOYEES SelectedEmployee = BD.EMPLOYEES.Find(ID);
             if (Mode == "Create")
@@ -74,20 +84,21 @@ namespace GestionCommerciale.Controllers
                 Unpret.RECU = 0;
                 Unpret.RESTE = decimal.Parse(MONTANT);
                 Unpret.DATE = SelectedDate;
-                Unpret.DATE_ECHEANCE = SelectedEcheDate;
+                //Unpret.DATE_ECHEANCE = SelectedEcheDate;
                 Unpret.NBR_MOIS = int.Parse(NBR_MOIS);
                 Unpret.TYPE = TYPE;
-                Unpret.STATUT = "EN COURS";
+                Unpret.STATUT = "NON CLOTURE";
                 BD.PRETS.Add(Unpret);
                 BD.SaveChanges();
+                decimal MontantApayer = decimal.Parse(MONTANT);
                 for (int i = 0; i < int.Parse(NBR_MOIS); i++)
                 {
                     TRANCHES_PRETS UneTranche = new TRANCHES_PRETS();
                     UneTranche.PRET = Unpret.ID;
                     UneTranche.PRETS = Unpret;
-                    UneTranche.MONTANT = 0;
-                    UneTranche.DATE = Unpret.DATE_ECHEANCE.AddMonths(i);
-                    UneTranche.STATUT = "DEBLOQUE";
+                    UneTranche.MONTANT = MontantApayer / int.Parse(NBR_MOIS);
+                    UneTranche.DATE = Unpret.DATE.AddMonths(i);
+                    UneTranche.STATUT = "1";
                     BD.TRANCHES_PRETS.Add(UneTranche);
                     BD.SaveChanges();
                 }
@@ -103,11 +114,25 @@ namespace GestionCommerciale.Controllers
                 Unpret.RECU = 0;
                 Unpret.RESTE = decimal.Parse(MONTANT);
                 Unpret.DATE = SelectedDate;
-                Unpret.DATE_ECHEANCE = SelectedEcheDate;
+                //Unpret.DATE_ECHEANCE = SelectedEcheDate;
                 Unpret.NBR_MOIS = int.Parse(NBR_MOIS);
                 Unpret.TYPE = TYPE;
-                Unpret.STATUT = "EN COURS";
+                Unpret.STATUT = "NON CLOTURE";
                 BD.SaveChanges();
+                BD.TRANCHES_PRETS.Where(p => p.PRETS.ID == SeletedPretID).ToList().ForEach(p => BD.TRANCHES_PRETS.Remove(p));
+                BD.SaveChanges();
+                decimal MontantApayer = decimal.Parse(MONTANT);
+                for (int i = 0; i < int.Parse(NBR_MOIS); i++)
+                {
+                    TRANCHES_PRETS UneTranche = new TRANCHES_PRETS();
+                    UneTranche.PRET = Unpret.ID;
+                    UneTranche.PRETS = Unpret;
+                    UneTranche.MONTANT = MontantApayer / int.Parse(NBR_MOIS);
+                    UneTranche.DATE = Unpret.DATE.AddMonths(i);
+                    UneTranche.STATUT = "1";
+                    BD.TRANCHES_PRETS.Add(UneTranche);
+                    BD.SaveChanges();
+                }
             }
             return RedirectToAction("Index");
         }
@@ -184,66 +209,87 @@ namespace GestionCommerciale.Controllers
             {
                 for (int iRow = 0; iRow < listTable.Rows.Count; iRow++)
                 {
-                    string MATRICULE = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
-                    string FULLENAME = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
-                    string MONTANT = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "0";
-                    string DATE = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : DateTime.Today.ToShortDateString();
-                    string DATE_ECHEANCE = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
-                    string NBR_MOIS = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
-                    string TYPE = listTable.Rows[iRow][6] != null ? Convert.ToString(listTable.Rows[iRow][6]) : "";
-                    EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
-
-                    if (SelectedEmploye == null)
+                    string NUMERO_PRET = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
+                    string MATRICULE = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
+                    string NOM = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
+                    string PRENOM = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
+                    string MONTANT = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "0";
+                    string DATE = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : DateTime.Today.ToShortDateString();
+                    string NBR_ECHAEANCE = listTable.Rows[iRow][6] != null ? Convert.ToString(listTable.Rows[iRow][6]) : "1";
+                    string NUMERO_ECHEANCE = listTable.Rows[iRow][7] != null ? Convert.ToString(listTable.Rows[iRow][7]) : "1";
+                    string MONTANT_ECHEANCE = listTable.Rows[iRow][8] != null ? Convert.ToString(listTable.Rows[iRow][8]) : "0";
+                    string DATE_ECHEANCE = listTable.Rows[iRow][9] != null ? Convert.ToString(listTable.Rows[iRow][9]) : DateTime.Today.ToShortDateString();
+                    string STAUT_ECHEANCE = listTable.Rows[iRow][10] != null ? Convert.ToString(listTable.Rows[iRow][10]) : "";
+                    string TYPE_PRET = listTable.Rows[iRow][11] != null ? Convert.ToString(listTable.Rows[iRow][11]) : "01";
+                    TRANCHES_PRETS SelectedTranche = BD.TRANCHES_PRETS.Where(Element => Element.NUMERO == NUMERO_ECHEANCE && Element.PRETS.CODE == NUMERO_PRET).FirstOrDefault();
+                    PRETS SelectedPret = BD.PRETS.Where(Element => Element.CODE == NUMERO_PRET).FirstOrDefault();
+                    if (SelectedTranche == null)
                     {
-                        SelectedEmploye = new EMPLOYEES();
-                        SelectedEmploye.FULLNAME = FULLENAME;
-                        SelectedEmploye.NUMERO = MATRICULE;
-                        if (BD.DECLARATIONS.FirstOrDefault() != null)
+
+                        if (SelectedPret == null)
                         {
-                            SelectedEmploye.SOCIETES = BD.DECLARATIONS.FirstOrDefault();
-                            SelectedEmploye.SOCIETE = BD.DECLARATIONS.FirstOrDefault().ID;
+                            EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
+                            if (SelectedEmploye == null)
+                            {
+                                SelectedEmploye = new EMPLOYEES();
+                                SelectedEmploye.FULLNAME = PRENOM + " " + NOM;
+                                SelectedEmploye.NUMERO = MATRICULE;
+                                if (BD.DECLARATIONS.FirstOrDefault() != null)
+                                {
+                                    SelectedEmploye.SOCIETES = BD.DECLARATIONS.FirstOrDefault();
+                                    SelectedEmploye.SOCIETE = BD.DECLARATIONS.FirstOrDefault().ID;
+                                }
+                                BD.EMPLOYEES.Add(SelectedEmploye);
+                                BD.SaveChanges();
+                            }
+                            DateTime dateValue;
+                            if (DateTime.TryParse(DATE, out dateValue))
+                            {
+                                decimal montant = !string.IsNullOrEmpty(MONTANT) ? decimal.Parse(MONTANT) : 0;
+                                DateTime NewDate = DateTime.Parse(DATE);
+                                SelectedPret = new PRETS();
+                                SelectedPret.CODE = NUMERO_PRET;
+                                SelectedPret.EMPLOYEE = SelectedEmploye.ID;
+                                SelectedPret.EMPLOYEES = SelectedEmploye;
+                                SelectedPret.MONTANT = montant;
+                                SelectedPret.DATE = NewDate;
+                                SelectedPret.DATE_ECHEANCE = NewDate;
+                                SelectedPret.NBR_MOIS = !string.IsNullOrEmpty(NBR_ECHAEANCE) ? int.Parse(NBR_ECHAEANCE) : 1;
+                                SelectedPret.RECU = 0;
+                                SelectedPret.RESTE = montant;
+                                SelectedPret.TYPE = TYPE_PRET;
+                                SelectedPret.STATUT = "NON CLOTURE";
+                                BD.PRETS.Add(SelectedPret);
+                                BD.SaveChanges();
+                            }
                         }
-                        BD.EMPLOYEES.Add(SelectedEmploye);
+                        SelectedTranche = new TRANCHES_PRETS();
+                        decimal montantTranche = !string.IsNullOrEmpty(MONTANT_ECHEANCE) ? decimal.Parse(MONTANT_ECHEANCE) : 0;
+                        SelectedTranche.MONTANT = montantTranche;
+                        SelectedTranche.NUMERO = NUMERO_ECHEANCE;
+                        SelectedTranche.DATE = DateTime.Parse(DATE_ECHEANCE);
+                        SelectedTranche.STATUT = STAUT_ECHEANCE;
+                        SelectedTranche.PRET = SelectedPret.ID;
+                        SelectedTranche.PRETS = SelectedPret;
+                        BD.TRANCHES_PRETS.Add(SelectedTranche);
                         BD.SaveChanges();
                     }
-                    DateTime dateValue;
-                    if (DateTime.TryParse(DATE, out dateValue))
+                    else
                     {
-                        decimal montant = !string.IsNullOrEmpty(MONTANT) ? decimal.Parse(MONTANT) : 0;
-                        DateTime NewDate = DateTime.Parse(DATE);
-                        PRETS NouveauPret = new PRETS();
-                        NouveauPret.CODE = BD.PRETS.Count() > 0 ? BD.PRETS.Select(Elt => Elt.ID).Max().ToString() : "1";
-                        NouveauPret.EMPLOYEE = SelectedEmploye.ID;
-                        NouveauPret.EMPLOYEES = SelectedEmploye;
-                        NouveauPret.MONTANT = montant;
-                        NouveauPret.DATE = NewDate;
-                        DateTime dateEchValue;
-                        NouveauPret.DATE_ECHEANCE = NewDate;
-                        if (DateTime.TryParse(DATE_ECHEANCE, out dateEchValue))
-                        {
-                            DateTime NewEchDate = DateTime.Parse(DATE_ECHEANCE);
-                            NouveauPret.DATE_ECHEANCE = NewEchDate;
-                        }
-                        NouveauPret.NBR_MOIS = !string.IsNullOrEmpty(NBR_MOIS) ? int.Parse(NBR_MOIS) : 1;
-                        NouveauPret.RECU = 0;
-                        NouveauPret.RESTE = montant;
-                        NouveauPret.TYPE = TYPE;
-                        NouveauPret.STATUT = "EN COURS";
-                        BD.PRETS.Add(NouveauPret);
+                        decimal montantTranche = !string.IsNullOrEmpty(MONTANT_ECHEANCE) ? decimal.Parse(MONTANT_ECHEANCE) : 0;
+                        SelectedTranche.MONTANT = montantTranche;
+                        SelectedTranche.NUMERO = NUMERO_ECHEANCE;
+                        SelectedTranche.DATE = DateTime.Parse(DATE_ECHEANCE);
+                        SelectedTranche.STATUT = STAUT_ECHEANCE;
                         BD.SaveChanges();
-                        for (int i = 0; i < int.Parse(NBR_MOIS); i++)
-                        {
-                            TRANCHES_PRETS UneTranche = new TRANCHES_PRETS();
-                            UneTranche.PRET = NouveauPret.ID;
-                            UneTranche.PRETS = NouveauPret;
-                            UneTranche.MONTANT = 0;
-                            UneTranche.DATE = NouveauPret.DATE_ECHEANCE.AddMonths(i);
-                            UneTranche.STATUT = "DEBLOQUE";
-                            BD.TRANCHES_PRETS.Add(UneTranche);
-                            BD.SaveChanges();
-                        }
                     }
-
+                    if (SelectedTranche.STATUT == "2")
+                    {
+                        SelectedPret.RECU += SelectedTranche.MONTANT;
+                        SelectedPret.RESTE -= SelectedTranche.MONTANT;
+                        if (SelectedPret.RESTE <= 0) SelectedPret.STATUT = "CLOTURE";
+                        BD.SaveChanges();
+                    }
                 }
             }
             catch (Exception)
@@ -461,7 +507,7 @@ namespace GestionCommerciale.Controllers
                          RECU = Element.RECU,
                          RESTE = Element.RESTE,
                          DU = START,
-                         DATE=Element.DATE.ToShortDateString(),
+                         DATE = Element.DATE.ToShortDateString(),
                          AU = END,
                      };
             }
@@ -474,7 +520,7 @@ namespace GestionCommerciale.Controllers
                          CODE = string.Empty,
                          FULLNAME = Element.FULLNAME,
                          NUMERO = Element.NUMERO,
-                         MONTANT = GetMontant(Element,  START,  END),
+                         MONTANT = GetMontant(Element, START, END),
                          RECU = GetRecu(Element, START, END),
                          RESTE = GetReste(Element, START, END),
                          DU = START,
