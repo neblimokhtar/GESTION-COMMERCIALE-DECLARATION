@@ -316,7 +316,7 @@ namespace GestionCommerciale.Controllers
         public JsonResult GetAllEmployee()
         {
             BD.Configuration.ProxyCreationEnabled = false;
-            List<EMPLOYEES> ListeEmployee = BD.EMPLOYEES.ToList();
+            List<EMPLOYEES> ListeEmployee = BD.EMPLOYEES.OrderBy(Element=>Element.NUMERO).ToList();
             return Json(ListeEmployee, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

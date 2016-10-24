@@ -1,0 +1,90 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="ibox-content" id="Content">
+    <div class="row">
+        <span class="badge badge-info" style="float: right; margin-right: 15px; margin-bottom: 15px;">
+            <h1>TOTAL</h1>
+            <h1 id="TOTAL">@ViewBag.TOTAL</h1>
+        </span>
+        <span class="badge badge-info" style="float: right; margin-right: 15px; margin-bottom: 15px;">
+            <h1>DEBIT</h1>
+            <h1 id="RECU">@ViewBag.DEBIT</h1>
+        </span>
+        <span class="badge badge-info" style="float: right; margin-right: 15px; margin-bottom: 15px;">
+            <h1>CREDIT</h1>
+            <h1 id="RESTE">@ViewBag.CREDIT</h1>
+        </span>
+    </div>
+    <table class="table table-striped table-bordered table-hover dataTables-example"
+        id="Tableau">
+        <thead>
+            <tr>
+                <th>MATRICULE
+                                </th>
+                <th>NOM & PRENOM
+                                </th>
+                <th>DATE
+                                </th>
+                <th>JOURNAL
+                                </th>
+                <th>NUMERO PIECE
+                                </th>
+                <th>LIBELLE
+                                </th>
+                <th>MONTANT
+                                </th>
+                <th>ACTION
+                                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (dynamic item in Model)
+            {
+
+                <tr id="@item.ID">
+                    <td>
+                        @item.EMPLOYEES.NUMERO
+                    </td>
+                    <td>
+                        @item.EMPLOYEES.FULLNAME
+                    </td>
+                    <td>
+                        @item.DATE.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.JOURNAL
+                    </td>
+                    <td>
+                        @item.NUM_PIECE
+                    </td>
+                    <td>
+                        @item.LIBELLE
+                    </td>
+                    <td>
+                        @item.MONTANT.ToString("F3")
+                    </td>
+                    <td>
+                        @if (item.ACTION == "CREDIT")
+                        {
+                            <span class="label label-danger">CREDIT</span>
+                        }
+                        @if (item.ACTION == "DEBIT")
+                        {
+                            <span class="label label-success">DEBIT</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    var table = $('#Tableau').DataTable();
+</script>

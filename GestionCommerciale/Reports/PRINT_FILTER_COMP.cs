@@ -16,14 +16,14 @@ namespace GestionCommerciale.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class PRINT_FILTER_PRET : ReportClass {
+    public class PRINT_FILTER_COMP : ReportClass {
         
-        public PRINT_FILTER_PRET() {
+        public PRINT_FILTER_COMP() {
         }
         
         public override string ResourceName {
             get {
-                return "PRINT_FILTER_PRET.rpt";
+                return "PRINT_FILTER_COMP.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace GestionCommerciale.Reports {
         
         public override string FullResourceName {
             get {
-                return "GestionCommerciale.Reports.PRINT_FILTER_PRET.rpt";
+                return "GestionCommerciale.Reports.PRINT_FILTER_COMP.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace GestionCommerciale.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedPRINT_FILTER_PRET : Component, ICachedReport {
+    public class CachedPRINT_FILTER_COMP : Component, ICachedReport {
         
-        public CachedPRINT_FILTER_PRET() {
+        public CachedPRINT_FILTER_COMP() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace GestionCommerciale.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            PRINT_FILTER_PRET rpt = new PRINT_FILTER_PRET();
+            PRINT_FILTER_COMP rpt = new PRINT_FILTER_COMP();
             rpt.Site = this.Site;
             return rpt;
         }

@@ -22,6 +22,8 @@ namespace GestionCommerciale.Models
             this.SAISIES = new HashSet<SAISIES>();
             this.ANNEXE_1 = new HashSet<ANNEXE_1>();
             this.PRETS = new HashSet<PRETS>();
+            this.MOUVEMENTS_COMPTABLES = new HashSet<MOUVEMENTS_COMPTABLES>();
+
         }
     
         public int ID { get; set; }
@@ -42,7 +44,8 @@ namespace GestionCommerciale.Models
         public virtual ICollection<LIGNES_GENERATIONS> LIGNES_GENERATIONS { get; set; }
         public virtual ICollection<ANNEXE_1> ANNEXE_1 { get; set; }
         public virtual ICollection<PRETS> PRETS { get; set; }
-        
+        public virtual ICollection<MOUVEMENTS_COMPTABLES> MOUVEMENTS_COMPTABLES { get; set; }
+
     }
     
 }

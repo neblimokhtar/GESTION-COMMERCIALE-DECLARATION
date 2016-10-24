@@ -1,0 +1,166 @@
+﻿<link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    #Tableau tbody tr {
+        cursor: pointer;
+    }
+
+        #Tableau tbody tr:hover {
+            background-color: #23c6c8;
+        }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>RAPPROCHEMENT COMPTABLE</h2>
+        <ol class="breadcrumb">
+            <li><a>COMPTABILITE</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "RapprochementComptable", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        MATRICULE</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="MATRICULE" id="MATRICULE" readonly required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        EMPLOYEE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="employee" id="employee">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="text-align: initial; padding-left: 0px;">
+                        DATE</label>
+                    <div class="col-lg-8">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" name="DATE" id="DATE" required value="@Model.DATE.ToShortDateString()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        JOURNALE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="JOURNALE" id="JOURNALE" required value="@Model.JOURNAL">
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        N° PIECE</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="NUM_PIECE" id="NUM_PIECE" required value="@Model.NUM_PIECE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        LIBELLE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="LIBELLE" id="LIBELLE" required value="@Model.LIBELLE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        MONTANT</label>
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" name="MONTANT" id="MONTANT" required value="@Model.MONTANT.ToString().Replace(',', '.')">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Valider</button>
+        </div>
+    }
+</div>
+<script src="~/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="~/js/select2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Mode = "@ViewBag.Mode";
+        var Code = "@ViewBag.Code";
+        var table = $('#Tableau').DataTable();
+        $("#DATE").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $("#employee").select2();
+        var table = $('#Tableau').DataTable();
+        var employee = "@Model.EMPLOYEE";
+        $('#employee').append($('<option>', {
+            value: "",
+            text: ""
+        }));
+        $.ajax({
+            type: 'POST',
+            url: "/Avance/GetAllEmployee",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    $('#employee').append($('<option>', {
+                        value: item.ID,
+                        text: item.NUMERO+" - "+item.FULLNAME
+                    }));
+                    if (Mode == "Edit") {
+                        $("#employee").val(employee).trigger("change");
+                    }
+                });
+            }
+        });
+    });
+    $('#employee').on('change', function () {
+        $("#MATRICULE").val("");
+        if (this.value != "") {
+            $.ajax({
+                type: 'POST',
+                url: "/Avance/GetEmployeeByID?ID=" + this.value,
+                success: function (response) {
+                    debugger;
+                    $("#MATRICULE").val(response);
+                }
+            });
+        }
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette demande ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+</script>
+
