@@ -97,13 +97,14 @@ namespace GestionCommerciale.Controllers
             {
                 for (int iRow = 0; iRow < listTable.Rows.Count; iRow++)
                 {
-                    string SMATRICULE = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
-                    string DATE = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
-                    string JOURNAL = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
-                    string NUM_PIECE = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
-                    string LIBELLE = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
-                    string DEBIT = listTable.Rows[iRow][6] != null ? Convert.ToString(listTable.Rows[iRow][6]) : "0";
-                    string CREDIT = listTable.Rows[iRow][7] != null ? Convert.ToString(listTable.Rows[iRow][7]) : "0";
+                    string NUMERO = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
+                    string SMATRICULE = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
+                    string DATE = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
+                    string JOURNAL = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
+                    string NUM_PIECE = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
+                    string LIBELLE = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
+                    string DEBIT = listTable.Rows[iRow][7] != null ? Convert.ToString(listTable.Rows[iRow][7]) : "0";
+                    string CREDIT = listTable.Rows[iRow][8] != null ? Convert.ToString(listTable.Rows[iRow][8]) : "0";
                     string MATRICULE = SMATRICULE.Substring(1);
                     EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
                     if (SelectedEmploye == null)
@@ -119,50 +120,46 @@ namespace GestionCommerciale.Controllers
                         BD.EMPLOYEES.Add(SelectedEmploye);
                         BD.SaveChanges();
                     }
-                    DateTime dateValue;
-                    if (DateTime.TryParse(DATE, out dateValue))
+                    int Num = int.Parse(NUMERO);
+                    MOUVEMENTS_COMPTABLES SelectedMouvemenet = BD.MOUVEMENTS_COMPTABLES.Where(Element => Element.NUMERO == Num).FirstOrDefault();
+                    if (SelectedMouvemenet == null)
                     {
-                        decimal value;
-                        if (decimal.TryParse(DEBIT, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                        DateTime dateValue;
+                        if (DateTime.TryParse(DATE, out dateValue))
                         {
-                            decimal debit = decimal.Parse(DEBIT);
-                            if ((debit % 1) == 0)
+                            decimal value;
+                            MOUVEMENTS_COMPTABLES Mouvement = new MOUVEMENTS_COMPTABLES();
+                            Mouvement.EMPLOYEE = SelectedEmploye.ID;
+                            Mouvement.NUMERO = Num;
+                            Mouvement.EMPLOYEES = SelectedEmploye;
+                            Mouvement.DATE = DateTime.Parse(DATE);
+                            Mouvement.JOURNAL = JOURNAL;
+                            Mouvement.NUM_PIECE = NUM_PIECE;
+                            Mouvement.LIBELLE = LIBELLE;
+                            Mouvement.DATE_AFFECATION = DateTime.Parse(DATE);
+                            if (JOURNAL == "A.N")
                             {
-                                MOUVEMENTS_COMPTABLES Mouvement = new MOUVEMENTS_COMPTABLES();
-                                Mouvement.EMPLOYEE = SelectedEmploye.ID;
-                                Mouvement.EMPLOYEES = SelectedEmploye;
-                                Mouvement.DATE = DateTime.Parse(DATE);
-                                Mouvement.JOURNAL = JOURNAL;
-                                Mouvement.NUM_PIECE = NUM_PIECE;
-                                Mouvement.LIBELLE = LIBELLE;
+                                DateTime AnneeP = DateTime.Parse(DATE).AddYears(-1);
+                                Mouvement.DATE_AFFECATION = new DateTime(AnneeP.Year, 12, 31);
+                            }
+                            if (decimal.TryParse(DEBIT, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                            {
+                                decimal debit = decimal.Parse(DEBIT);
                                 Mouvement.MONTANT = debit;
                                 Mouvement.ACTION = "DEBIT";
-                                BD.MOUVEMENTS_COMPTABLES.Add(Mouvement);
                                 BD.SaveChanges();
                             }
-                        }
-                        if (decimal.TryParse(CREDIT, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
-                        {
-                            decimal credit = decimal.Parse(CREDIT);
-                            if ((credit % 1) == 0)
+                            if (decimal.TryParse(CREDIT, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
                             {
-                                MOUVEMENTS_COMPTABLES Mouvement = new MOUVEMENTS_COMPTABLES();
-                                Mouvement.EMPLOYEE = SelectedEmploye.ID;
-                                Mouvement.EMPLOYEES = SelectedEmploye;
-                                Mouvement.DATE = DateTime.Parse(DATE);
-                                Mouvement.JOURNAL = JOURNAL;
-                                Mouvement.NUM_PIECE = NUM_PIECE;
-                                Mouvement.LIBELLE = LIBELLE;
+                                decimal credit = decimal.Parse(CREDIT);
                                 Mouvement.MONTANT = -credit;
                                 Mouvement.ACTION = "CREDIT";
-                                BD.MOUVEMENTS_COMPTABLES.Add(Mouvement);
                                 BD.SaveChanges();
                             }
+                            BD.MOUVEMENTS_COMPTABLES.Add(Mouvement);
                         }
                     }
-
                 }
-
             }
             catch (Exception)
             {
@@ -210,7 +207,19 @@ namespace GestionCommerciale.Controllers
         public ActionResult PrintFilter(string CODE, string START, string END, string Mode)
         {
             dynamic dt = null;
-
+            var Variable = new
+            {
+                DU = START,
+                AU = END,
+                DATE = string.Empty,
+                MATRICULE = string.Empty,
+                FULLNAME = string.Empty,
+                JOURNAL = string.Empty,
+                NUMERO_PIECE = string.Empty,
+                LIBELLE = string.Empty,
+                DEBIT = 0,
+                CREDIT = 0,
+            };
             if (Mode == "DETAIL")
             {
                 List<MOUVEMENTS_COMPTABLES> Liste = BD.MOUVEMENTS_COMPTABLES.ToList();
@@ -222,19 +231,23 @@ namespace GestionCommerciale.Controllers
                 if (!string.IsNullOrEmpty(START))
                 {
                     DateTime StartDate = DateTime.Parse(START);
-                    Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+                    Liste = Liste.Where(Element => Element.DATE_AFFECATION >= StartDate).ToList();
+
+
                 }
                 if (!string.IsNullOrEmpty(END))
                 {
                     DateTime EndDate = DateTime.Parse(END);
-                    Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+                    Liste = Liste.Where(Element => Element.DATE_AFFECATION <= EndDate).ToList();
+
                 }
+
                 dt = from Element in Liste
                      select new
                      {
                          DU = START,
                          AU = END,
-                         DATE = Element.DATE.ToShortDateString(),
+                         DATE = Element.DATE_AFFECATION.ToShortDateString(),
                          MATRICULE = Element.EMPLOYEES.NUMERO,
                          FULLNAME = Element.EMPLOYEES.FULLNAME,
                          JOURNAL = Element.JOURNAL,
@@ -243,6 +256,13 @@ namespace GestionCommerciale.Controllers
                          DEBIT = Element.MONTANT > 0 ? Element.MONTANT : 0,
                          CREDIT = Element.MONTANT < 0 ? Element.MONTANT : 0,
                      };
+
+                if (Liste.Count == 0)
+                {
+
+                    dt = new[] { Variable };
+                }
+
             }
             if (Mode == "GROUP")
             {
@@ -261,6 +281,10 @@ namespace GestionCommerciale.Controllers
                          DEBIT = GetDebit(Element, START, END),
                          CREDIT = GetCredit(Element, START, END),
                      };
+                if (Liste.Count == 0)
+                {
+                    dt = new[] { Variable };
+                }
             }
             ReportDocument rptH = new ReportDocument();
             string FileName = Server.MapPath("/Reports/PRINT_FILTER_COMP.rpt");
@@ -269,10 +293,34 @@ namespace GestionCommerciale.Controllers
             Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }
-        public decimal GetDebit(EMPLOYEES Employee, string Start, string End)
+        public ActionResult PrintRecap(string CODE, string START, string END)
+        {
+
+            List<EMPLOYEES> Liste = BD.EMPLOYEES.OrderBy(Element=>Element.NUMERO).ToList();
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             DU = START,
+                             AU = END,
+                             MATRICULE = Element.NUMERO,
+                             FULLNAME = Element.FULLNAME,
+                             DEBIT = GetDebit(Element, START, END),
+                             CREDIT = GetCredit(Element, START, END),
+                             PRIS = GetMontant(Element, START, END),
+                             RECU = GetRecu(Element, START, END),
+                         };
+
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/PRINT_RECAP.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+        public decimal GetMontant(EMPLOYEES Employee, string Start, string End)
         {
             decimal Result = 0;
-            List<MOUVEMENTS_COMPTABLES> Liste = BD.MOUVEMENTS_COMPTABLES.Where(Elment => Elment.EMPLOYEES.ID == Employee.ID).ToList();
+            List<PRETS> Liste = BD.PRETS.Where(Elment => Elment.EMPLOYEES.ID == Employee.ID).ToList();
             if (!string.IsNullOrEmpty(Start))
             {
                 DateTime StartDate = DateTime.Parse(Start);
@@ -282,6 +330,46 @@ namespace GestionCommerciale.Controllers
             {
                 DateTime EndDate = DateTime.Parse(End);
                 Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+            }
+            foreach (PRETS Element in Liste)
+            {
+                Result += Element.MONTANT;
+            }
+            return Result;
+        }
+        public decimal GetRecu(EMPLOYEES Employee, string Start, string End)
+        {
+            decimal Result = 0;
+            List<PRETS> Liste = BD.PRETS.Where(Elment => Elment.EMPLOYEES.ID == Employee.ID).ToList();
+            if (!string.IsNullOrEmpty(Start))
+            {
+                DateTime StartDate = DateTime.Parse(Start);
+                Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+            }
+            if (!string.IsNullOrEmpty(End))
+            {
+                DateTime EndDate = DateTime.Parse(End);
+                Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+            }
+            foreach (PRETS Element in Liste)
+            {
+                Result += Element.RECU;
+            }
+            return Result;
+        }
+        public decimal GetDebit(EMPLOYEES Employee, string Start, string End)
+        {
+            decimal Result = 0;
+            List<MOUVEMENTS_COMPTABLES> Liste = BD.MOUVEMENTS_COMPTABLES.Where(Elment => Elment.EMPLOYEES.ID == Employee.ID).ToList();
+            if (!string.IsNullOrEmpty(Start))
+            {
+                DateTime StartDate = DateTime.Parse(Start);
+                Liste = Liste.Where(Element => Element.DATE_AFFECATION >= StartDate).ToList();
+            }
+            if (!string.IsNullOrEmpty(End))
+            {
+                DateTime EndDate = DateTime.Parse(End);
+                Liste = Liste.Where(Element => Element.DATE_AFFECATION <= EndDate).ToList();
             }
             foreach (MOUVEMENTS_COMPTABLES Element in Liste)
             {
@@ -296,12 +384,12 @@ namespace GestionCommerciale.Controllers
             if (!string.IsNullOrEmpty(Start))
             {
                 DateTime StartDate = DateTime.Parse(Start);
-                Liste = Liste.Where(Element => Element.DATE >= StartDate).ToList();
+                Liste = Liste.Where(Element => Element.DATE_AFFECATION >= StartDate).ToList();
             }
             if (!string.IsNullOrEmpty(End))
             {
                 DateTime EndDate = DateTime.Parse(End);
-                Liste = Liste.Where(Element => Element.DATE <= EndDate).ToList();
+                Liste = Liste.Where(Element => Element.DATE_AFFECATION <= EndDate).ToList();
             }
             foreach (MOUVEMENTS_COMPTABLES Element in Liste)
             {

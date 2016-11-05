@@ -478,7 +478,18 @@ namespace GestionCommerciale.Controllers
         public ActionResult PrintFilter(string CODE, string START, string END, string Mode)
         {
             dynamic dt = null;
-
+            var Variable = new
+            {
+                CODE = string.Empty,
+                FULLNAME = string.Empty,
+                NUMERO = string.Empty,
+                MONTANT = 0,
+                RECU = 0,
+                RESTE = 0,
+                DU = string.Empty,
+                DATE = string.Empty,
+                AU = string.Empty,
+            };
             if (Mode == "DETAIL")
             {
                 List<PRETS> Liste = BD.PRETS.ToList();
@@ -510,6 +521,11 @@ namespace GestionCommerciale.Controllers
                          DATE = Element.DATE.ToShortDateString(),
                          AU = END,
                      };
+                if (Liste.Count == 0)
+                {
+
+                    dt = new[] { Variable };
+                }
             }
             if (Mode == "GROUP")
             {
@@ -527,6 +543,11 @@ namespace GestionCommerciale.Controllers
                          DATE = string.Empty,
                          AU = END,
                      };
+                if (Liste.Count == 0)
+                {
+
+                    dt = new[] { Variable };
+                }
             }
             ReportDocument rptH = new ReportDocument();
             string FileName = Server.MapPath("/Reports/PRINT_FILTER_PRET.rpt");

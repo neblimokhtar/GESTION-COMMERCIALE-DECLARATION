@@ -273,6 +273,12 @@
       <DependentUpon>CommandeFournisseur.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\PRINT_RECAP.cs">
+      <DependentUpon>PRINT_RECAP.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Reports\PRINT_FILTER_COMP.cs">
       <DependentUpon>PRINT_FILTER_COMP.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -775,6 +781,10 @@
     <EmbeddedResource Include="Reports\CommandeFournisseur.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CommandeFournisseur.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PRINT_RECAP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PRINT_RECAP.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PRINT_FILTER_COMP.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

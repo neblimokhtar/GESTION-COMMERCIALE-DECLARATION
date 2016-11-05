@@ -32,6 +32,8 @@
                         id="Tableau">
                         <thead>
                             <tr>
+                                <th>NUMERO
+                                </th>
                                 <th>MATRICULE
                                 </th>
                                 <th>NOM & PRENOM
@@ -56,13 +58,16 @@
 
                                 <tr id="@item.ID">
                                     <td>
+                                        @item.NUMERO
+                                    </td>
+                                    <td>
                                         @item.EMPLOYEES.NUMERO
                                     </td>
                                     <td>
                                         @item.EMPLOYEES.FULLNAME
                                     </td>
                                     <td>
-                                        @item.DATE.ToShortDateString()
+                                        @item.DATE_AFFECATION.ToShortDateString()
                                     </td>
                                     <td>
                                         @item.JOURNAL
@@ -111,7 +116,7 @@
 <script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 <script type="text/javascript">
     var table = $('#Tableau').DataTable({
-        "order": []
+        "order": [[0, "asc"]]
     });
     $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
         if (event.button == 2) {

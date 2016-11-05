@@ -57,6 +57,8 @@
                                 <ul class="dropdown-menu">
                                     <li id="PrintBtn"><a href="#">Detail</a></li>
                                     <li id="PrintGBtn"><a href="#">Groupement</a></li>
+                                    <li id="PrintRBtn"><a href="#">Recap</a></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -81,6 +83,8 @@
                         id="Tableau">
                         <thead>
                             <tr>
+                                <th>NUMERO
+                                </th>
                                 <th>MATRICULE
                                 </th>
                                 <th>NOM & PRENOM
@@ -130,6 +134,12 @@
         var END = $("#END").val();
         window.open('/RapprochementComptable/PrintFilter?CODE=' + EMPLOYEE + '&START=' + START + '&END=' + END + '&MODE=GROUP', '_blank');
     });
+    $("#PrintRBtn").click(function () {
+        var EMPLOYEE = $("#employee").val();
+        var START = $("#START").val();
+        var END = $("#END").val();
+        window.open('/RapprochementComptable/PrintRecap?CODE=' + EMPLOYEE + '&START=' + START + '&END=' + END, '_blank');
+    });
     $(document).ready(function () {
         $("#START").datepicker({
             format: 'dd/mm/yyyy'
@@ -146,7 +156,7 @@
                 $.each(response, function (i, item) {
                     $('#employee').append($('<option>', {
                         value: item.ID,
-                        text: item.NUMERO+" - "+item.FULLNAME
+                        text: item.NUMERO + " - " + item.FULLNAME
                     }));
                 });
             }
