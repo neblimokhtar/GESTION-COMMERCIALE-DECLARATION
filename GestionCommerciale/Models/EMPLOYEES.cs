@@ -23,6 +23,7 @@ namespace GestionCommerciale.Models
             this.ANNEXE_1 = new HashSet<ANNEXE_1>();
             this.PRETS = new HashSet<PRETS>();
             this.MOUVEMENTS_COMPTABLES = new HashSet<MOUVEMENTS_COMPTABLES>();
+            this.ATTESTATIONS = new HashSet<ATTESTATIONS>();
 
         }
     
@@ -38,6 +39,9 @@ namespace GestionCommerciale.Models
         public int SITUATION_FAMILIALE { get; set; }
         public int NOMBRE_ENFANT { get; set; }
         public string ACTIVITE { get; set; }
+        public string CIVILITE { get; set; }
+        public decimal? SALAIRE { get; set; }
+        public DateTime? DEMARRAGE { get; set; }
         [ForeignKey("SOCIETE")]
         public virtual DECLARATIONS SOCIETES { get; set; }
         public virtual ICollection<SAISIES> SAISIES { get; set; }
@@ -45,6 +49,8 @@ namespace GestionCommerciale.Models
         public virtual ICollection<ANNEXE_1> ANNEXE_1 { get; set; }
         public virtual ICollection<PRETS> PRETS { get; set; }
         public virtual ICollection<MOUVEMENTS_COMPTABLES> MOUVEMENTS_COMPTABLES { get; set; }
+        public virtual ICollection<ATTESTATIONS> ATTESTATIONS { get; set; }
+
 
     }
     

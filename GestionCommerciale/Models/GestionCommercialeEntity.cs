@@ -54,6 +54,10 @@ namespace GestionCommerciale.Models
         public DbSet<PRETS> PRETS { get; set; }
         public DbSet<TRANCHES_PRETS> TRANCHES_PRETS { get; set; }
         public DbSet<MOUVEMENTS_COMPTABLES> MOUVEMENTS_COMPTABLES { get; set; }
+        public DbSet<ATTESTATIONS> ATTESTATIONS { get; set; }
+        public DbSet<MODELES_ATTESTATIONS> MODELES_ATTESTATIONS { get; set; }
+        public DbSet<CHAMPS_MODELES> CHAMPS_MODELES { get; set; }
+
 
     }
 }

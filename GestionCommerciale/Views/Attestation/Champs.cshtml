@@ -1,0 +1,116 @@
+﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>MODELES ATTESTATIONS</h2>
+        <ol class="breadcrumb">
+            <li><a>ATTESTATIONS</a> </li>
+            <li class="active"><strong>Champs du modèle</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-top: 4px;">
+                    <h5 style="padding-top: 10px;"><a href="/Attestation/Champs?Filter=" + @ViewBag.Filter>Modèle : @ViewBag.TITRE</a></h5>
+                    <div class="ibox-tools">
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("FormChamp", "Attestation", new { Mode = "Create", Code = "-1", Filter = ViewBag.Filter }, null)'">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered table-hover dataTables-example"
+                        id="Tableau">
+                        <thead>
+                            <tr>
+                                <th>ORDRE
+                                </th>
+                                <th>TYPE
+                                </th>
+                                <th>VALEUR
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (dynamic item in Model)
+                            {
+
+                                <tr id="@item.ID">
+                                    <td>
+                                        @item.ORDRE
+                                    </td>
+                                    <td>
+                                        @item.TYPE
+                                    </td>
+                                    <td>
+                                        @item.VALEUR
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class='custom-menu'>
+    <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>
+        Supprimer</li>
+    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+        Modifier</li>
+</ul>
+<script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script type="text/javascript" src="~/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script type="text/javascript">
+    var table = $('#Tableau').DataTable({
+        "order": [[0, "asc"]]
+    });
+    $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+        if (event.button == 2) {
+            window.myValue = $(this).attr('id');
+            event.preventDefault();
+            var Width = $("#NavigationBar").width();
+            $(".custom-menu").finish().toggle(100).css({
+                top: event.pageY + "px",
+                left: (event.pageX) - Width + "px"
+            });
+        }
+    });
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+    $(".custom-menu li").click(function () {
+        var MyValue = window.myValue;
+        switch ($(this).attr("data-action")) {
+            case "Delete": Btn_Delete_click(MyValue); break;
+            case "Edit": Btn_Edit_click(MyValue); break;
+        }
+        $(".custom-menu").hide(100);
+    });
+    function Btn_Edit_click(MyValue) {
+        var Filter = "@ViewBag.Filter";
+        window.location.href = "/Attestation/FormChamp?Code=" + MyValue + "&Mode=Edit&Filter=" + Filter;
+    }
+    function Btn_Delete_click(MyValue) {
+        var Filter = "@ViewBag.Filter";
+        var r = confirm("Voulez vous vraiment supprimer cette ligne ?");
+        if (r == true) {
+            window.location.href = "/Attestation/DeleteChamp?Code=" + MyValue + "&Filter=" + Filter;
+        }
+    }
+
+    $(document).ready(function () {
+    });
+</script>

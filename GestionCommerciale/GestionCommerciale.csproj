@@ -172,6 +172,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AchatController.cs" />
+    <Compile Include="Controllers\AttestationController.cs" />
     <Compile Include="Controllers\AvanceController.cs" />
     <Compile Include="Controllers\CNSSController.cs" />
     <Compile Include="Controllers\ConvertisseurChiffresLettres.cs" />
@@ -196,12 +197,15 @@
     <Compile Include="Models\ANNEXE_5.cs" />
     <Compile Include="Models\ANNEXE_6.cs" />
     <Compile Include="Models\ANNEXE_7.cs" />
+    <Compile Include="Models\ATTESTATIONS.cs" />
     <Compile Include="Models\AVANCES.cs" />
     <Compile Include="Models\AVOIRS_CLIENTS.cs" />
     <Compile Include="Models\AVOIRS_FOURNISSEURS.cs" />
     <Compile Include="Models\BONS_LIVRAISONS_CLIENTS.cs" />
     <Compile Include="Models\BONS_RECEPTIONS_FOURNISSEURS.cs" />
+    <Compile Include="Models\CHAMPS_MODELES.cs" />
     <Compile Include="Models\CLIENTS.cs" />
+    <Compile Include="Models\MODELES_ATTESTATIONS.cs" />
     <Compile Include="Models\MOUVEMENTS_COMPTABLES.cs" />
     <Compile Include="Models\DECLARATIONS.cs" />
     <Compile Include="Models\COMMANDES_CLIENTS.cs" />
@@ -272,6 +276,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CommandeFournisseur.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ATTESTATION.cs">
+      <DependentUpon>ATTESTATION.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Reports\PRINT_RECAP.cs">
       <DependentUpon>PRINT_RECAP.rpt</DependentUpon>
@@ -752,6 +762,12 @@
     <Content Include="Views\RapprochementComptable\Recap.cshtml" />
     <Content Include="Views\RapprochementComptable\Filtrer.cshtml" />
     <Content Include="Views\RapprochementComptable\Form.cshtml" />
+    <Content Include="Views\Attestation\Modeles.cshtml" />
+    <Content Include="Views\Attestation\FormModele.cshtml" />
+    <Content Include="Views\Attestation\Champs.cshtml" />
+    <Content Include="Views\Attestation\FormChamp.cshtml" />
+    <Content Include="Views\Attestation\Index.cshtml" />
+    <Content Include="Views\Attestation\FormAttestation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -781,6 +797,10 @@
     <EmbeddedResource Include="Reports\CommandeFournisseur.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CommandeFournisseur.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ATTESTATION.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ATTESTATION.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PRINT_RECAP.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

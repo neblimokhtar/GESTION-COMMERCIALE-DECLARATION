@@ -1,0 +1,80 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>MODELES ATTESTATIONS</h2>
+        <ol class="breadcrumb">
+            <li><a>ATTESTATIONS</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE_PAGE</strong></li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendFormChamp", "Attestation", new { Mode = ViewBag.Mode, Code = ViewBag.Code, Filter = ViewBag.Filter }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        ORDRE</label>
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" name="ORDRE" id="ORDRE" required value="@ViewBag.ordre">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        TYPE</label>
+                    <div class="col-lg-8">
+                        <select name="TYPE" id="TYPE" class="form-control">
+                            <option value="TEXT">TEXT</option>
+                            <option value="TABLE">TABLE</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        VALEUR</label>
+                    <div class='col-lg-8' id='Affichage'>
+                        <input type='text' class='form-control' name='VALEUR' required value='@Model.VALEUR'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="submit" class="btn btn-w-m btn-success" id="Valider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Valider</button>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("change", "#TYPE", function (e) {
+            if (this.value == "TEXT") {
+                $("#Affichage").replaceWith("<div class='col-lg-8' id='Affichage'> <input type='text' class='form-control' name='VALEUR' required value='@Model.VALEUR'> </div>");
+            }
+            if (this.value == "TABLE") {
+                $("#Affichage").replaceWith("<div class='col-lg-8' id='Affichage'> <select class='form-control' name='VALEUR' id='VALEUR'> <option value='CIN'>CIN</option> <option value='FULLNAME'>NOM COMPLET</option> <option value='NUM_ASS_SOC'>NUM ASSURANCE SOCIALE</option> <option value='QUALIFICATION'>QUALIFICATION</option> <option value='NUMERO'>NUMERO</option> <option value='ADRESSE'>ADRESSE</option> <option value='CIVILITE'>CIVILITE</option> <option value='SALAIRE'>SALAIRE</option> <option value='DEMARRAGE'>DATE DEMARRAGE</option> </select> </div>");
+
+            }
+        });
+
+        var Mode = "@ViewBag.Mode";
+        var TYPE = "@Model.TYPE";
+        var VALEUR = "@Model.VALEUR";
+        if (Mode == "Edit") {
+            $("#TYPE option").filter(function () {
+                return $(this).text() == TYPE;
+            }).prop('selected', true);
+        }
+        if (Mode == "Edit" && TYPE == "TABLE") {
+            $("#VALEUR option").filter(function () {
+                return $(this).text() == VALEUR;
+            }).prop('selected', true);
+        }
+    });
+</script>
+
