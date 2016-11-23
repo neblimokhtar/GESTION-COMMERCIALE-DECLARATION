@@ -177,6 +177,117 @@ namespace GestionCommerciale.Controllers
             ViewBag.SOCIETE_NAME = SOCIETE;
             return View(Employee);
         }
+        [HttpPost]
+        public ActionResult SendFile(string Filter)
+        {
+            HttpPostedFileBase FILE = Request.Files["FILE"];
+            if (FILE != null && FILE.ContentLength > 0)
+            {
+                string path = Path.Combine(Server.MapPath("~/Images/"), FILE.FileName);
+                FILE.SaveAs(path);
+                Uploadfile(FILE.InputStream, path, Filter);
+            }
+            return RedirectToAction("Employee", "CNSS", new { @Code = Filter });
+        }
+        public void Uploadfile(Stream fStream, string fileName, string Filter)
+        {
+            byte[] contents = new byte[fStream.Length];
+            fStream.Read(contents, 0, (int)fStream.Length);
+            fStream.Close();
+            string connectionString = "";
+            string fileExtension = Path.GetExtension(fileName).ToUpper();
+            if (fileExtension == ".XLS")
+            {
+                connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source='" + fileName + "'; Extended Properties='Excel 8.0;HDR=YES;'";
+            }
+            else if (fileExtension == ".XLSX")
+            {
+                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + fileName + "';Extended Properties='Excel 12.0 Xml;HDR=YES;'";
+            }
+            if (!(string.IsNullOrEmpty(connectionString)))
+            {
+                string[] sheetNames = GetExcelSheetNames(connectionString);
+                if ((sheetNames != null) && (sheetNames.Length > 0))
+                {
+                    DataTable dt = null;
+                    OleDbConnection con = new OleDbConnection(connectionString);
+                    OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM [" + sheetNames[0] + "]", con);
+                    dt = new DataTable();
+                    da.Fill(dt);
+                    InsertIntoList(fStream, dt, Filter);
+                }
+            }
+        }
+        private void InsertIntoList(Stream fStream, DataTable listTable, string Filter)
+        {
+            try
+            {
+                for (int iRow = 0; iRow < listTable.Rows.Count; iRow++)
+                {
+                    string MATRICULE = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
+                    string SALAIRE = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
+                    string NOM = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
+                    string PRENOM = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
+                    string CIN = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
+                    string QUALIFICATION = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
+                    EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
+                    if (SelectedEmploye == null)
+                    {
+                        SelectedEmploye = new EMPLOYEES();
+                        SelectedEmploye.NUMERO = MATRICULE;
+                        SelectedEmploye.FULLNAME = PRENOM + " " + NOM;
+                        SelectedEmploye.CIN = CIN;
+                        SelectedEmploye.QUALIFICATION = QUALIFICATION;
+                        SelectedEmploye.SALAIRE = 0;
+                        decimal value;
+                        if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                        {
+                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture);
+                        }
+                        SelectedEmploye.SOCIETE = int.Parse(Filter);
+                        int ID = int.Parse(Filter);
+                        DECLARATIONS SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID).FirstOrDefault();
+                        SelectedEmploye.SOCIETES = SOCIETE;
+                        SelectedEmploye.ACTIF = true;
+                        BD.EMPLOYEES.Add(SelectedEmploye);
+                        BD.SaveChanges();
+                    }
+                    else
+                    {
+                        SelectedEmploye.NUMERO = MATRICULE;
+                        SelectedEmploye.FULLNAME = PRENOM + " " + NOM;
+                        SelectedEmploye.CIN = CIN;
+                        SelectedEmploye.QUALIFICATION = QUALIFICATION;
+                        SelectedEmploye.SALAIRE = 0;
+                        decimal value;
+                        if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                        {
+                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture);
+                        }
+                        SelectedEmploye.SOCIETE = int.Parse(Filter);
+                        int ID = int.Parse(Filter);
+                        DECLARATIONS SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID).FirstOrDefault();
+                        SelectedEmploye.SOCIETES = SOCIETE;
+                        SelectedEmploye.ACTIF = true;
+                        BD.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+            };
+        }
+        public ActionResult ImporterEmployee(string Societe)
+        {
+            ViewBag.Societe = Societe;
+            int ID_SOCIETE = int.Parse(Societe);
+            string SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID_SOCIETE).FirstOrDefault().SOCIETE;
+            ViewBag.SOCIETE_NAME = SOCIETE;
+            return View();
+        }
         public ActionResult DeleteEmp(string Code, string Filter)
         {
             int ID = int.Parse(Code);

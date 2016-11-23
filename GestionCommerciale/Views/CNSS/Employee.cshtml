@@ -21,6 +21,8 @@
                     <div class="ibox-tools">
                         <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("FormEmployee", "CNSS", new { Mode = "Create", Code = "-1", Societe = @ViewBag.CODE_SOCIETE }, null)'">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("ImporterEmployee", "CNSS", new {Societe = @ViewBag.CODE_SOCIETE }, null)'">
+                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Importer</span></button>
                         <button class="btn btn-primary " type="button" id="PrintBtn">
                             <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
                     </div>
@@ -45,6 +47,7 @@
                         <tbody>
                             @foreach (dynamic item in Model)
                             {
+
                                 <tr id="@item.ID">
                                     <td>
                                         @item.CIN
@@ -64,10 +67,12 @@
                                     <td>
                                         @if (item.ACTIF)
                                         {
+
                                             <small class="label label-info">ACTIF</small>
                                         }
                                         else
                                         {
+
                                             <small class="label label-danger">NON ACTIF</small>
                                         }
                                     </td>

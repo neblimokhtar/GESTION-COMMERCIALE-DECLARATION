@@ -346,7 +346,7 @@ namespace GestionCommerciale.Controllers
                     }
                     if (Element.VALEUR == "SALAIRE")
                     {
-                        Result += employee.SALAIRE + " ";
+                        Result += ((decimal)employee.SALAIRE) * 13 + " ";
                     }
                     if (Element.VALEUR == "DEMARRAGE")
                     {
