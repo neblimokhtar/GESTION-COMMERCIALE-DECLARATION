@@ -21,7 +21,7 @@
                     <div class="ibox-tools">
                         <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("FormEmployee", "CNSS", new { Mode = "Create", Code = "-1", Societe = @ViewBag.CODE_SOCIETE }, null)'">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
-                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("ImporterEmployee", "CNSS", new {Societe = @ViewBag.CODE_SOCIETE }, null)'">
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("ImporterEmployee", "CNSS", new { Societe = @ViewBag.CODE_SOCIETE }, null)'">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Importer</span></button>
                         <button class="btn btn-primary " type="button" id="PrintBtn">
                             <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
@@ -34,12 +34,16 @@
                             <tr>
                                 <th>CIN
                                 </th>
+                                <th>CIVILITE
+                                </th>
                                 <th>NOM & PRENOM
                                 </th>
                                 <th>NUMERO ASSUREE SOCIAL
                                 </th>
                                 <th>NUMERO</th>
                                 <th>QUALIFICATION</th>
+                                <th>SALAIRE</th>
+                                <th>DEMARRAGE</th>
                                 <th>ETAT
                                 </th>
                             </tr>
@@ -53,6 +57,9 @@
                                         @item.CIN
                                     </td>
                                     <td>
+                                        @item.CIVILITE
+                                    </td>
+                                    <td>
                                         @item.FULLNAME
                                     </td>
                                     <td>
@@ -63,6 +70,13 @@
                                     </td>
                                     <td>
                                         @item.QUALIFICATION
+                                    </td>
+                                    <td>
+                                        @item.SALAIRE.ToString("F3")
+                                    </td>
+                                    <td>
+                                        @{string Date=item.DEMARRAGE!=null ? item.DEMARRAGE.ToShortDateString():string.Empty;}
+                                        @Date
                                     </td>
                                     <td>
                                         @if (item.ACTIF)

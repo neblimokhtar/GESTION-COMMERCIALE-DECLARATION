@@ -350,7 +350,7 @@ namespace GestionCommerciale.Controllers
                     }
                     if (Element.VALEUR == "DEMARRAGE")
                     {
-                        Result += employee.DEMARRAGE + " ";
+                        Result += employee.DEMARRAGE.Value.ToShortDateString() + " ";
                     }
                 }
             }

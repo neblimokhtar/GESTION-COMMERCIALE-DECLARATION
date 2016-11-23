@@ -162,12 +162,14 @@ namespace GestionCommerciale.Controllers
             if (Mode == "Create")
             {
                 ViewBag.Type = "Nouveau Employee";
+                ViewBag.date = DateTime.Today.ToShortDateString();
             }
             if (Mode == "Edit")
             {
                 ViewBag.Type = "Modifier un Employee";
                 int ID = int.Parse(Code);
                 Employee = BD.EMPLOYEES.Where(emp => emp.ID == ID).FirstOrDefault();
+                ViewBag.date = Employee.DEMARRAGE != null ? Employee.DEMARRAGE.Value.ToShortDateString() : DateTime.Today.ToShortDateString();
             }
             ViewBag.Code = Code;
             ViewBag.Mode = Mode;
@@ -175,6 +177,7 @@ namespace GestionCommerciale.Controllers
             int ID_SOCIETE = int.Parse(Societe);
             string SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID_SOCIETE).FirstOrDefault().SOCIETE;
             ViewBag.SOCIETE_NAME = SOCIETE;
+
             return View(Employee);
         }
         [HttpPost]
@@ -231,6 +234,10 @@ namespace GestionCommerciale.Controllers
                     string CIN = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
                     string QUALIFICATION = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
                     EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
+                    while (CIN.Length < 8)
+                    {
+                        CIN = "0" + CIN;
+                    }
                     if (SelectedEmploye == null)
                     {
                         SelectedEmploye = new EMPLOYEES();
@@ -242,7 +249,7 @@ namespace GestionCommerciale.Controllers
                         decimal value;
                         if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
                         {
-                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture);
+                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE);
                         }
                         SelectedEmploye.SOCIETE = int.Parse(Filter);
                         int ID = int.Parse(Filter);
@@ -262,7 +269,7 @@ namespace GestionCommerciale.Controllers
                         decimal value;
                         if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
                         {
-                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture);
+                            SelectedEmploye.SALAIRE = decimal.Parse(SALAIRE);
                         }
                         SelectedEmploye.SOCIETE = int.Parse(Filter);
                         int ID = int.Parse(Filter);
@@ -305,6 +312,11 @@ namespace GestionCommerciale.Controllers
             string ACTIF = Request.Params["ACTIF"] != null ? "true" : "false";
             string QUALIFICATION = Request.Params["QUALIFICATION"] != null ? Request.Params["QUALIFICATION"].ToString() : string.Empty;
             string NUMERO = Request.Params["NUMERO"] != null ? Request.Params["NUMERO"].ToString() : string.Empty;
+
+            string DATE = Request.Params["DATE"] != null ? Request.Params["DATE"].ToString() : string.Empty;
+            string SALAIRE = Request.Params["SALAIRE"] != null ? Request.Params["SALAIRE"].ToString() : string.Empty;
+            string CIVILITE = Request.Params["CIVILITE"] != null ? Request.Params["CIVILITE"].ToString() : string.Empty;
+
             Boolean Etat = Boolean.Parse(ACTIF);
             if (Mode == "Create")
             {
@@ -319,6 +331,14 @@ namespace GestionCommerciale.Controllers
                 Employee.ACTIF = Etat;
                 Employee.NUMERO = NUMERO;
                 Employee.QUALIFICATION = QUALIFICATION;
+                Employee.DEMARRAGE = DateTime.Parse(DATE);
+                Employee.CIVILITE = CIVILITE;
+                Employee.SALAIRE = 0;
+                decimal value;
+                if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                {
+                    Employee.SALAIRE = decimal.Parse(SALAIRE, CultureInfo.InvariantCulture);
+                }
                 BD.EMPLOYEES.Add(Employee);
                 BD.SaveChanges();
             }
@@ -332,6 +352,14 @@ namespace GestionCommerciale.Controllers
                 Employee.ACTIF = Etat;
                 Employee.NUMERO = NUMERO;
                 Employee.QUALIFICATION = QUALIFICATION;
+                Employee.DEMARRAGE = DateTime.Parse(DATE);
+                Employee.CIVILITE = CIVILITE;
+                Employee.SALAIRE = 0;
+                decimal value;
+                if (decimal.TryParse(SALAIRE, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+                {
+                    Employee.SALAIRE = decimal.Parse(SALAIRE, CultureInfo.InvariantCulture);
+                }
                 BD.SaveChanges();
             }
             return RedirectToAction("Employee", "CNSS", new { @Code = Filter });
