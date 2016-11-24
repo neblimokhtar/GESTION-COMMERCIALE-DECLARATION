@@ -228,16 +228,19 @@ namespace GestionCommerciale.Controllers
                 for (int iRow = 0; iRow < listTable.Rows.Count; iRow++)
                 {
                     string MATRICULE = listTable.Rows[iRow][0] != null ? Convert.ToString(listTable.Rows[iRow][0]) : "";
-                    string SALAIRE = listTable.Rows[iRow][1] != null ? Convert.ToString(listTable.Rows[iRow][1]) : "";
-                    string NOM = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
-                    string PRENOM = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
-                    string CIN = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
-                    string QUALIFICATION = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
+                    string SALAIRE = listTable.Rows[iRow][2] != null ? Convert.ToString(listTable.Rows[iRow][2]) : "";
+                    string NOM = listTable.Rows[iRow][3] != null ? Convert.ToString(listTable.Rows[iRow][3]) : "";
+                    string PRENOM = listTable.Rows[iRow][4] != null ? Convert.ToString(listTable.Rows[iRow][4]) : "";
+                    string CIN = listTable.Rows[iRow][5] != null ? Convert.ToString(listTable.Rows[iRow][5]) : "";
+                    string QUALIFICATION = listTable.Rows[iRow][6] != null ? Convert.ToString(listTable.Rows[iRow][6]) : "";
+                    string DATE = listTable.Rows[iRow][7] != null ? Convert.ToString(listTable.Rows[iRow][7]) : "";
                     EMPLOYEES SelectedEmploye = BD.EMPLOYEES.Where(Element => Element.NUMERO == MATRICULE).FirstOrDefault();
+                    DateTime date;
                     while (CIN.Length < 8)
                     {
                         CIN = "0" + CIN;
                     }
+                    
                     if (SelectedEmploye == null)
                     {
                         SelectedEmploye = new EMPLOYEES();
@@ -256,6 +259,9 @@ namespace GestionCommerciale.Controllers
                         DECLARATIONS SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID).FirstOrDefault();
                         SelectedEmploye.SOCIETES = SOCIETE;
                         SelectedEmploye.ACTIF = true;
+                        if (DateTime.TryParse(DATE, out date)) {
+                            SelectedEmploye.DEMARRAGE = DateTime.Parse(DATE);
+                        }
                         BD.EMPLOYEES.Add(SelectedEmploye);
                         BD.SaveChanges();
                     }
@@ -276,6 +282,10 @@ namespace GestionCommerciale.Controllers
                         DECLARATIONS SOCIETE = BD.DECLARATIONS.Where(Soc => Soc.ID == ID).FirstOrDefault();
                         SelectedEmploye.SOCIETES = SOCIETE;
                         SelectedEmploye.ACTIF = true;
+                        if (DateTime.TryParse(DATE, out date))
+                        {
+                            SelectedEmploye.DEMARRAGE = DateTime.Parse(DATE);
+                        }
                         BD.SaveChanges();
                     }
                 }
